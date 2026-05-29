@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// User Model (Customers & Admins)
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  phone     String?
+  avatar    String?
+  role      Role     @default(CUSTOMER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders    Order[]
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+// Category Model
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  products  Product[]
+}
+
+// Product Model
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  price       Float
+  stock       Int      @default(0)
+  status           String   @default("Còn hàng")
+  image            String?
+  description      String?
+  shortDescription String?
+  categoryId       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  category    Category @relation(fields: [categoryId], references: [id])
+  orderItems  OrderItem[]
+}
+
+// Order Model
+model Order {
+  id              String      @id @default(uuid())
+  userId          String
+  status          String      @default("Chờ xác nhận") // Chờ xác nhận, Đang chuẩn bị, Đã giao, Đã hủy
+  paymentMethod   String      @default("COD")
+  shippingAddress String
+  shippingFee     Float       @default(20000)
+  subtotal        Float
+  total           Float
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  user            User        @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+}
+
+// OrderItem Model
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  orderId   String
+  productId Int
+  quantity  Int
+  price     Float
+
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id])
+}
+
+// Article / Feed Model
+model Article {
+  id        Int      @id @default(autoincrement())
+  title     String
+  excerpt   String?
+  content   String   @db.Text
+  imageUrl  String?
+  author    String
+  category  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

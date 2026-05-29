@@ -1,0 +1,167 @@
+.orderDetailPage {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 3rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.backBtn:hover {
+  color: var(--color-primary-red);
+}
+
+.headerTitle h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.mainCol {
+  grid-column: span 2;
+}
+
+.sideCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (max-width: 992px) {
+  .mainCol {
+    grid-column: span 1;
+  }
+}
+
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  padding: 1.5rem;
+}
+
+.card h2 {
+  font-size: 1.1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.orderItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--color-divider);
+}
+
+.orderItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.itemImage {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+}
+
+.itemInfo {
+  flex-grow: 1;
+}
+
+.itemName {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.itemMeta {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.itemTotal {
+  font-weight: 700;
+}
+
+.orderSummary {
+  background-color: var(--color-bg-alt);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  color: var(--color-text-main);
+}
+
+.summaryRow:last-child {
+  margin-bottom: 0;
+}
+
+.totalRow {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-divider);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.customerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-text-main);
+  font-size: 0.95rem;
+}
+
+.paymentMethod {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-divider);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}

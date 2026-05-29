@@ -1,0 +1,230 @@
+.adminProductsPage {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.searchBar {
+  position: relative;
+  flex-grow: 1;
+  max-width: 400px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+}
+
+.searchBar input {
+  padding-left: 2.75rem;
+}
+
+.tableContainer {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th, .table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.table th {
+  background-color: var(--color-bg-alt);
+  font-weight: 600;
+  color: var(--color-text-main);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(139, 115, 85, 0.03); /* Rất nhạt của primary red */
+}
+
+.productCell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.productThumb {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+.productName {
+  font-weight: 500;
+  color: var(--color-text-main);
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.statusInStock {
+  background-color: rgba(46, 125, 50, 0.1);
+  color: #2e7d32;
+}
+
+.statusOutOfStock {
+  background-color: rgba(211, 47, 47, 0.1);
+  color: #d32f2f;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.actionBtnEdit, .actionBtnDelete {
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionBtnEdit {
+  color: #1976d2;
+  background-color: rgba(25, 118, 210, 0.1);
+}
+
+.actionBtnEdit:hover {
+  background-color: rgba(25, 118, 210, 0.2);
+}
+
+.actionBtnDelete {
+  color: #d32f2f;
+  background-color: rgba(211, 47, 47, 0.1);
+}
+
+.actionBtnDelete:hover {
+  background-color: rgba(211, 47, 47, 0.2);
+}
+
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modalContent {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.closeBtn {
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.closeBtn:hover {
+  color: var(--color-primary-red);
+}
+
+.modalForm {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.imagePreview {
+  margin-top: 1rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  height: 150px;
+  background-color: var(--color-bg-alt);
+}
+
+.imagePreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-divider);
+}

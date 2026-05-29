@@ -1,0 +1,127 @@
+.adminCustomersPage {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.searchBar {
+  position: relative;
+  flex-grow: 1;
+  max-width: 400px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+}
+
+.searchBar input {
+  padding-left: 2.75rem;
+}
+
+.tableContainer {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th, .table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.table th {
+  background-color: var(--color-bg-alt);
+  font-weight: 600;
+  color: var(--color-text-main);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(139, 115, 85, 0.03);
+}
+
+.customerCell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.customerName {
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.customerId {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.actionBtnView {
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  background-color: transparent;
+}
+
+.actionBtnView:hover {
+  background-color: var(--color-bg-alt);
+  color: var(--color-text-main);
+}

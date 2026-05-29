@@ -1,41 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './ProductList.module.css';
+import { api } from '../../../services/api';
 
 const CATEGORIES = ['Tất cả', 'Hủ Tiếu Nước', 'Hủ Tiếu Khô', 'Combo'];
 
-const MOCK_PRODUCTS = [
-  {
-    id: 1,
-    name: 'Hủ Tiếu Tươi',
-    price: '65,000đ',
-    image: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cb438?q=80&w=800&auto=format&fit=crop',
-    tag: 'Bán chạy',
-    category: 'Hủ Tiếu Nước'
-  },
-  {
-    id: 2,
-    name: 'Hủ Tiếu Khô',
-    price: '65,000đ',
-    image: 'https://images.unsplash.com/photo-1555126634-323283e090fa?q=80&w=800&auto=format&fit=crop',
-    category: 'Hủ Tiếu Khô'
-  },
-  {
-    id: 3,
-    name: 'Combo Tươi & Khô',
-    price: '120,000đ',
-    image: 'https://images.unsplash.com/photo-1548943487-a2e4e43b485d?q=80&w=800&auto=format&fit=crop',
-    tag: 'Tiết kiệm',
-    category: 'Combo'
-  }
-];
-
 const ProductList = () => {
   const [activeCategory, setActiveCategory] = useState('Tất cả');
+  const [products, setProducts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await api.get('/products');
+        setProducts(data);
+      } catch (error) {
+        console.error('Failed to fetch products', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   const filteredProducts = activeCategory === 'Tất cả'
-    ? MOCK_PRODUCTS
-    : MOCK_PRODUCTS.filter(p => p.category === activeCategory);
+    ? products
+    : products.filter(p => p.category?.name === activeCategory);
 
   return (
     <div className="container animate-fade-in" style={{ padding: '4rem 0' }}>
@@ -57,10 +48,13 @@ const ProductList = () => {
       </div>
 
       <div className={styles.productGrid}>
-        {filteredProducts.map((product) => (
+        {isLoading ? (
+          <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem' }}>Đang tải dữ liệu...</div>
+        ) : filteredProducts.map((product) => (
           <Link to={`/menu/${product.id}`} key={product.id} className={styles.productCard}>
             <div className={styles.productImageWrapper}>
-              {product.tag && <span className={styles.productTag}>{product.tag}</span>}
+              {/* Fake a tag for demo if combo */}
+              {product.category?.name === 'Combo' && <span className={styles.productTag}>Tiết kiệm</span>}
               <img src={product.image} alt={product.name} className={styles.productImg} />
               <div className={styles.productOverlay}>
                 <button className="btn btn-primary">Thêm vào giỏ</button>
@@ -68,10 +62,20 @@ const ProductList = () => {
             </div>
             <div className={styles.productInfo}>
               <h3 className={styles.productName}>{product.name}</h3>
-              <div className={styles.productPrice}>{product.price}</div>
+              {product.shortDescription && (
+                <p style={{ fontSize: '0.85rem', color: '#666', marginBottom: '0.5rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                  {product.shortDescription}
+                </p>
+              )}
+              <div className={styles.productPrice}>
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
+              </div>
             </div>
           </Link>
         ))}
+        {!isLoading && filteredProducts.length === 0 && (
+          <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem' }}>Không có sản phẩm nào trong danh mục này.</div>
+        )}
       </div>
     </div>
   );

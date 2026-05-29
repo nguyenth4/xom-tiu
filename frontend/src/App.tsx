@@ -14,6 +14,10 @@ import Feed from './pages/client/Feed/Feed';
 import FeedDetail from './pages/client/FeedDetail/FeedDetail';
 // Admin Pages
 import Dashboard from './pages/admin/Dashboard/Dashboard';
+import AdminProducts from './pages/admin/Products/Products';
+import AdminOrders from './pages/admin/Orders/Orders';
+import OrderDetail from './pages/admin/OrderDetail/OrderDetail';
+import AdminCustomers from './pages/admin/Customers/Customers';
 
 import './App.css';
 
@@ -39,7 +43,11 @@ function App() {
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
-          {/* Other admin routes would go here: products, categories, orders */}
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="orders/:id" element={<OrderDetail />} />
+          <Route path="customers" element={<AdminCustomers />} />
+          {/* Other admin routes would go here: categories */}
         </Route>
       </Routes>
     </Router>
