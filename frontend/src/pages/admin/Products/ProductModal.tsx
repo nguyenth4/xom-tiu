@@ -144,15 +144,31 @@ const ProductModal = ({ isOpen, onClose, product, categories }: ProductModalProp
           </div>
 
           <div className={styles.formGroup}>
-            <label>Đường dẫn hình ảnh (URL)</label>
+            <label>Hình ảnh sản phẩm</label>
             <input 
-              type="url" 
-              name="image"
+              type="file" 
+              name="imageFile"
               className="input-field" 
+              accept="image/*"
+              onChange={async (e) => {
+                if (e.target.files && e.target.files[0]) {
+                  const file = e.target.files[0];
+                  const uploadData = new FormData();
+                  uploadData.append('file', file);
+                  
+                  try {
+                    const response = await api.post('/upload', uploadData);
+                    setFormData(prev => ({ ...prev, image: response.url }));
+                  } catch (error) {
+                    alert('Lỗi tải ảnh lên. Vui lòng thử lại.');
+                  }
+                }
+              }}
+            />
+            <input 
+              type="hidden" 
+              name="image"
               value={formData.image} 
-              onChange={handleChange}
-              placeholder="https://example.com/image.jpg" 
-              required 
             />
             {formData.image && (
               <div className={styles.imagePreview}>

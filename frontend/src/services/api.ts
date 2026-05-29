@@ -8,10 +8,11 @@ export const api = {
   },
   
   post: async (endpoint: string, data: any) => {
+    const isFormData = data instanceof FormData;
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      headers: isFormData ? {} : { 'Content-Type': 'application/json' },
+      body: isFormData ? data : JSON.stringify(data),
     });
     if (!response.ok) throw new Error('API request failed');
     return response.json();
