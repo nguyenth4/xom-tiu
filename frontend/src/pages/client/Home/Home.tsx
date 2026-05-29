@@ -37,7 +37,7 @@ const Home = () => {
               Tinh Hoa <span className="text-primary">Hủ Tiếu</span> Truyền Thống
             </h1>
             <p className={styles.heroText}>
-              Thưởng thức hương vị đậm đà, nước dùng thanh ngọt được hầm từ xương ống trong 12 giờ. Sự kết hợp hoàn hảo giữa nét mộc mạc và phong cách hiện đại.
+              Thơm Tình Xóm Nhỏ - Đậm Vị Quê Hương
             </p>
             <div className={styles.heroActions}>
               <Link to="/menu" className="btn btn-primary">
@@ -50,9 +50,9 @@ const Home = () => {
           </div>
           <div className={styles.heroImageWrapper}>
             <div className={styles.heroImageDecor}></div>
-            <img 
-              src="https://images.unsplash.com/photo-1582878826629-29b7ad1cb438?q=80&w=1200&auto=format&fit=crop" 
-              alt="Hủ tiếu truyền thống" 
+            <img
+              src="https://images.unsplash.com/photo-1582878826629-29b7ad1cb438?q=80&w=1200&auto=format&fit=crop"
+              alt="Hủ tiếu truyền thống"
               className={styles.heroImage}
             />
           </div>
@@ -66,7 +66,7 @@ const Home = () => {
             <h2 className={styles.sectionTitle}>Món Ngon Xóm <span className="text-primary">Tiếu</span></h2>
             <p className={styles.sectionDesc}>Những tinh túy được yêu thích nhất từ gian bếp của chúng tôi.</p>
           </div>
-          
+
           <div className={`grid grid-cols-3 md-col-1 ${styles.productGrid}`}>
             {MOCK_PRODUCTS.map((product) => (
               <Link to={`/menu/${product.id}`} key={product.id} className={styles.productCard}>
@@ -84,7 +84,7 @@ const Home = () => {
               </Link>
             ))}
           </div>
-          
+
           <div className="text-center" style={{ marginTop: '3rem' }}>
             <Link to="/menu" className="btn btn-outline">
               Xem toàn bộ thực đơn

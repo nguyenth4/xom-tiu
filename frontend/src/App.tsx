@@ -10,6 +10,8 @@ import About from './pages/client/About/About';
 import Contact from './pages/client/Contact/Contact';
 import Cart from './pages/client/Cart/Cart';
 import Auth from './pages/client/Auth/Auth';
+import Feed from './pages/client/Feed/Feed';
+import FeedDetail from './pages/client/FeedDetail/FeedDetail';
 // Admin Pages
 import Dashboard from './pages/admin/Dashboard/Dashboard';
 
@@ -26,6 +28,8 @@ function App() {
           <Route path="menu/:id" element={<ProductDetail />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="feed" element={<Feed />} />
+          <Route path="feed/:id" element={<FeedDetail />} />
           <Route path="cart" element={<Cart />} />
           <Route path="login" element={<Auth defaultMode="login" />} />
           <Route path="register" element={<Auth defaultMode="register" />} />

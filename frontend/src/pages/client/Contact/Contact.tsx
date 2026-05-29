@@ -17,7 +17,7 @@ const Contact = () => {
             </div>
             <div className={styles.infoContent}>
               <h3>Địa chỉ cửa hàng</h3>
-              <p>123 Đường Trần Hưng Đạo, Phường Phạm Ngũ Lão<br />Quận 1, TP. Hồ Chí Minh</p>
+              <p>123 Ninh Kiều, TP Cần Thơ</p>
             </div>
           </div>
 

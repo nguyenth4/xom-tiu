@@ -34,6 +34,7 @@ const ClientLayout = () => {
             <Link to="/" className={styles.navLink}>Trang chủ</Link>
             <Link to="/menu" className={styles.navLink}>Thực đơn</Link>
             <Link to="/about" className={styles.navLink}>Về chúng tôi</Link>
+            <Link to="/feed" className={styles.navLink}>Tin tức</Link>
             <Link to="/contact" className={styles.navLink}>Liên hệ</Link>
           </nav>
 
@@ -58,6 +59,7 @@ const ClientLayout = () => {
             <Link to="/" className={styles.mobileNavLink} onClick={closeMobileMenu}>Trang chủ</Link>
             <Link to="/menu" className={styles.mobileNavLink} onClick={closeMobileMenu}>Thực đơn</Link>
             <Link to="/about" className={styles.mobileNavLink} onClick={closeMobileMenu}>Về chúng tôi</Link>
+            <Link to="/feed" className={styles.mobileNavLink} onClick={closeMobileMenu}>Tin tức</Link>
             <Link to="/contact" className={styles.mobileNavLink} onClick={closeMobileMenu}>Liên hệ</Link>
           </nav>
         )}
@@ -87,7 +89,7 @@ const ClientLayout = () => {
             <h4>Thông tin</h4>
             <ul>
               <li><span className="text-muted">Hotline:</span> 1900 xxxx</li>
-              <li><span className="text-muted">Địa chỉ:</span> 123 Đường Nguyễn Huệ, Q1, TP.HCM</li>
+              <li><span className="text-muted">Địa chỉ:</span> 123 Ninh Kiều, TP Cần Thơ</li>
             </ul>
           </div>
         </div>

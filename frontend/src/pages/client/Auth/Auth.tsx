@@ -60,7 +60,7 @@ const Auth = ({ defaultMode = 'login' }: AuthProps) => {
               type="email" 
               id="email" 
               className="input-field" 
-              placeholder="example@email.com" 
+              placeholder="Nhập email" 
               required 
             />
           </div>
