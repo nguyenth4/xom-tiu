@@ -201,3 +201,6 @@ button {
   background-color: rgba(251, 192, 45, 0.2);
   color: #f57f17;
 }
+
+/* Skeleton */
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }

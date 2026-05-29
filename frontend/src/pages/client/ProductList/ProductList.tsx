@@ -49,7 +49,19 @@ const ProductList = () => {
 
       <div className={styles.productGrid}>
         {isLoading ? (
-          <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem' }}>Đang tải dữ liệu...</div>
+          // Skeleton Loader
+          Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className={styles.productCard} style={{ cursor: 'default' }}>
+              <div className={styles.productImageWrapper} style={{ backgroundColor: '#e0e0e0', animation: 'pulse 1.5s infinite' }}>
+              </div>
+              <div className={styles.productInfo}>
+                <div style={{ height: '24px', backgroundColor: '#e0e0e0', width: '70%', marginBottom: '10px', borderRadius: '4px', animation: 'pulse 1.5s infinite' }}></div>
+                <div style={{ height: '16px', backgroundColor: '#e0e0e0', width: '100%', marginBottom: '6px', borderRadius: '4px', animation: 'pulse 1.5s infinite' }}></div>
+                <div style={{ height: '16px', backgroundColor: '#e0e0e0', width: '50%', marginBottom: '15px', borderRadius: '4px', animation: 'pulse 1.5s infinite' }}></div>
+                <div style={{ height: '20px', backgroundColor: '#e0e0e0', width: '40%', borderRadius: '4px', animation: 'pulse 1.5s infinite' }}></div>
+              </div>
+            </div>
+          ))
         ) : filteredProducts.map((product) => (
           <Link to={`/menu/${product.id}`} key={product.id} className={styles.productCard}>
             <div className={styles.productImageWrapper}>
