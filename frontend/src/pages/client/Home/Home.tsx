@@ -48,7 +48,7 @@ const Home = () => {
           <div className={styles.heroImageWrapper}>
             <div className={styles.heroImageDecor}></div>
             <img
-              src="https://images.unsplash.com/photo-1582878826629-29b7ad1cb438?q=80&w=1200&auto=format&fit=crop"
+              src="/images/banner.png"
               alt="Hủ tiếu truyền thống"
               className={styles.heroImage}
             />
