@@ -36,7 +36,7 @@ const OrderDetail = () => {
           <ArrowLeft size={20} /> Quay lại danh sách
         </Link>
         <div className={styles.headerTitle}>
-          <h1>Chi tiết đơn hàng {order.id}</h1>
+          <h1>Chi tiết đơn hàng {id || order.id}</h1>
           <span className={styles.date}><Calendar size={16} /> {order.date}</span>
         </div>
       </div>
