@@ -1,100 +1,81 @@
-# xom-tiu
+# Xóm Tíu E-commerce
 
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+Nền tảng thương mại điện tử chuyên cung cấp các sản phẩm Hủ Tiếu truyền thống (Hủ tiếu tươi, khô, combo) với định vị thương hiệu cao cấp.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Dự án được chia thành 2 phần: **Frontend** (React + Vite) và **Backend** (NestJS).
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Yêu cầu hệ thống (Prerequisites)
+- **Node.js** (Khuyến nghị phiên bản 18.x trở lên)
+- **PostgreSQL** (Dùng cho cơ sở dữ liệu)
+- **npm** (hoặc yarn, pnpm)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## 1. Hướng dẫn chạy Backend (NestJS)
 
+Mã nguồn Backend nằm trong thư mục `backend/`.
+
+**Bước 1:** Di chuyển vào thư mục backend
 ```bash
-$ npm install
+cd backend
 ```
 
-## Compile and run the project
-
+**Bước 2:** Cài đặt các packages phụ thuộc
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+**Bước 3:** Cấu hình biến môi trường
+Tạo file `.env` (nếu chưa có) và thiết lập các biến môi trường cần thiết như:
+- `DATABASE_URL` (kết nối PostgreSQL)
+- Thông tin cấu hình Stripe (Secret key, Webhook secret)
+- JWT Secret
 
+**Bước 4:** Khởi tạo Database (Prisma)
+Đồng bộ schema và tạo database:
 ```bash
-# unit tests
-$ npm run test
+npx prisma generate
+npx prisma db push
+```
+*(Tuỳ chọn: Bạn có thể chạy các script seed như `seed.js` hoặc `seed-products.js` để tạo dữ liệu mẫu).*
 
-# e2e tests
-$ npm run test:e2e
+**Bước 5:** Khởi chạy server Backend
+```bash
+# Chạy ở chế độ phát triển (Watch mode)
+npm run start:dev
+```
+Backend mặc định sẽ khởi chạy và lắng nghe tại port **3000** (`http://localhost:3000`).
 
-# test coverage
-$ npm run test:cov
+---
+
+## 2. Hướng dẫn chạy Frontend (React + Vite)
+
+Mã nguồn Frontend nằm trong thư mục `frontend/`.
+
+**Bước 1:** Mở một terminal mới và di chuyển vào thư mục frontend (từ thư mục gốc)
+```bash
+cd frontend
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+**Bước 2:** Cài đặt các packages phụ thuộc
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+**Bước 3:** Khởi chạy server Frontend
+```bash
+# Chạy ở chế độ phát triển
+npm run dev
+```
+Frontend mặc định sẽ khởi chạy tại port **5173** hoặc **5174** (`http://localhost:5173`).
 
-## Resources
+*(Lưu ý: Frontend đã được cấu hình sẵn gọi API tới `http://localhost:3000` qua thư mục `src/services/api.ts`).*
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 3. Lưu ý về tính năng Upload Hình Ảnh
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Khi upload hình ảnh từ trang Admin (Frontend), Backend sẽ nhận file qua endpoint `/upload` và tự động lưu trực tiếp file ảnh vào thư mục `frontend/public/images/`.
+Do đó, hãy đảm bảo thư mục `frontend/public/images/` luôn tồn tại trong quá trình chạy ứng dụng để hình ảnh hiển thị bình thường.
