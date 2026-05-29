@@ -1,0 +1,8 @@
+[providers]
+node = true
+
+[build]
+cmd = "cd backend && npm install && npm run build"
+
+[start]
+cmd = "cd backend && npm run start:prod"
