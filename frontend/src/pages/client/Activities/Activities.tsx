@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import styles from '../Feed/Feed.module.css'; // Reusing feed styles for consistency
 
 const activities = [
@@ -152,7 +153,7 @@ const Activities = () => {
           // Detailed View
           <div className="animate-fade-in">
             <button className={styles.backBtn} onClick={() => setActiveTab(null)}>
-              Quay lại danh sách
+              <ArrowLeft size={20} /> Quay lại danh sách
             </button>
             
             {activeContent && (
