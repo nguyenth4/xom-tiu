@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import { ShoppingCart, Menu, X, User, Search, Phone } from 'lucide-react';
+import { ShoppingCart, Menu, X, User, Search, Phone, ChevronDown, ChevronUp } from 'lucide-react';
 import { FaFacebookF, FaInstagram, FaTiktok } from 'react-icons/fa';
 import { api } from '../../services/api';
 import styles from './ClientLayout.module.css';
 
 const ClientLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
   const [categories, setCategories] = useState<{id: number, name: string}[]>([]);
 
   useEffect(() => {
@@ -27,6 +28,7 @@ const ClientLayout = () => {
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+    setIsMobileProductsOpen(false);
   };
 
   return (
@@ -113,18 +115,33 @@ const ClientLayout = () => {
         {isMobileMenuOpen && (
           <nav className={styles.navMobile}>
             <Link to="/" className={styles.mobileNavLink} onClick={closeMobileMenu}>Trang chủ</Link>
-            <Link to="/menu" className={styles.mobileNavLink} onClick={closeMobileMenu}>Tất cả sản phẩm</Link>
-            {categories.map(cat => (
-              <Link 
-                key={cat.id} 
-                to={`/menu?category=${encodeURIComponent(cat.name)}`} 
-                className={styles.mobileNavLink} 
-                style={{ paddingLeft: '2.5rem', fontSize: '1rem' }}
-                onClick={closeMobileMenu}
-              >
-                - {cat.name}
-              </Link>
-            ))}
+            <div 
+              className={styles.mobileNavLink} 
+              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
+              onClick={() => setIsMobileProductsOpen(!isMobileProductsOpen)}
+            >
+              Tất cả sản phẩm
+              {isMobileProductsOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+            </div>
+            
+            {isMobileProductsOpen && (
+              <div className={styles.mobileSubmenu}>
+                <Link to="/menu" className={styles.mobileNavLink} style={{ paddingLeft: '2.5rem', fontSize: '1rem' }} onClick={closeMobileMenu}>
+                  - Xem tất cả
+                </Link>
+                {categories.map(cat => (
+                  <Link 
+                    key={cat.id} 
+                    to={`/menu?category=${encodeURIComponent(cat.name)}`} 
+                    className={styles.mobileNavLink} 
+                    style={{ paddingLeft: '2.5rem', fontSize: '1rem' }}
+                    onClick={closeMobileMenu}
+                  >
+                    - {cat.name}
+                  </Link>
+                ))}
+              </div>
+            )}
             <Link to="/about" className={styles.mobileNavLink} onClick={closeMobileMenu}>Về chúng tôi</Link>
             <Link to="/feed" className={styles.mobileNavLink} onClick={closeMobileMenu}>Chuyện Xóm Tíu</Link>
             <Link to="/activities" className={styles.mobileNavLink} onClick={closeMobileMenu}>Hoạt Động</Link>
