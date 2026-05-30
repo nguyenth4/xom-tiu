@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, Leaf, Flame, Timer, Play, Star, MapPin, PhoneCall, ShieldCheck, Truck, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Leaf, Flame, Timer, MapPin, PhoneCall, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 import { api } from '../../../services/api';
