@@ -91,9 +91,9 @@ const ClientLayout = () => {
 
             {/* Desktop Right Nav */}
             <nav className={styles.navDesktopRight}>
-              <Link to="/feed" className={styles.navLink}>Tin Tức <span className={styles.chevron}>▾</span></Link>
-              <Link to="/feed" className={styles.navLink}>Hoạt Động <span className={styles.chevron}>▾</span></Link>
-              <Link to="/customer-service" className={styles.navLink}>Chăm Sóc Khách Hàng <span className={styles.chevron}>▾</span></Link>
+              <Link to="/feed" className={styles.navLink}>Chuyện Xóm Tíu</Link>
+              <Link to="/activities" className={styles.navLink}>Hoạt Động</Link>
+              <Link to="/customer-service" className={styles.navLink}>Chăm Sóc Khách Hàng</Link>
             </nav>
 
             {/* Mobile Right Actions */}
@@ -127,6 +127,7 @@ const ClientLayout = () => {
             ))}
             <Link to="/about" className={styles.mobileNavLink} onClick={closeMobileMenu}>Về chúng tôi</Link>
             <Link to="/feed" className={styles.mobileNavLink} onClick={closeMobileMenu}>Chuyện Xóm Tíu</Link>
+            <Link to="/activities" className={styles.mobileNavLink} onClick={closeMobileMenu}>Hoạt Động</Link>
             <Link to="/customer-service" className={styles.mobileNavLink} onClick={closeMobileMenu}>Chăm sóc khách hàng</Link>
           </nav>
         )}

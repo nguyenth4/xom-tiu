@@ -5,23 +5,17 @@
 }
 
 .hero {
-  position: relative;
-  height: 250px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  padding: 4rem 0 3rem;
+  text-align: center;
+  background-color: #f4ece1;
   margin-bottom: 3rem;
-  background-color: var(--color-primary-red);
 }
 
 .heroTitle {
-  color: white;
   font-size: 2.5rem;
+  color: var(--color-primary-red);
+  margin-bottom: 1rem;
   text-align: center;
-  position: relative;
-  z-index: 2;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .contentWrapper {
@@ -78,7 +72,7 @@
 
 @media (max-width: 768px) {
   .hero {
-    height: 180px;
+    padding: 3rem 0 2rem;
   }
   
   .heroTitle {

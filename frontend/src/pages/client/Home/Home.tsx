@@ -64,7 +64,7 @@ const Home = () => {
       <section className={styles.storySection}>
         <div className={`container ${styles.storyGrid}`}>
           <div>
-            <img src="https://images.unsplash.com/photo-1555126634-323283e090fa?q=80&w=800&auto=format&fit=crop" alt="Câu chuyện Xóm Tíu" className={styles.storyImage} />
+            <img src="/images/hu-tieu-mix.png" alt="Câu chuyện Xóm Tíu" className={styles.storyImage} />
           </div>
           <div className={styles.storyContent}>
             <h2>Khởi Nguồn Từ Sự Chân Thật</h2>
@@ -86,26 +86,74 @@ const Home = () => {
             <h2 className={styles.sectionTitle}>Quy Trình <span className="text-primary">Chế Biến</span></h2>
             <p className={styles.sectionDesc}>Từ nông trại đến bàn ăn, mỗi công đoạn đều được thực hiện với tình yêu và sự tỉ mỉ.</p>
           </div>
-          <div className={styles.processGrid}>
-            <div className={styles.processItem}>
-              <div className={styles.processIconWrapper}><Leaf /></div>
-              <h3 className={styles.processTitle}>1. Chọn lọc nguyên liệu</h3>
-              <p className={styles.processDesc}>Rau củ tươi sạch từ nông trại địa phương, không hóa chất.</p>
+          <div className={styles.processPhase}>
+            <div className={styles.processGrid} style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+              <div className={styles.processItem}>
+                <div className={styles.processIconWrapper}>1</div>
+                <h3 className={styles.processTitle}>Chọn nguyên liệu tự nhiên</h3>
+                <p className={styles.processDesc}>Sử dụng gạo tuyển chọn kết hợp cùng các loại rau củ tươi như: khoai tây, củ dền, trái gấc, lá cẩm, hoa đậu biếc, thanh long.</p>
+                <div className={styles.processTags}>
+                  <h4 style={{ textAlign: 'center', marginBottom: '0.75rem', color: 'var(--color-primary-red)', fontWeight: 700 }}>Cam Kết Từ Xóm Tíu</h4>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle2 size={18} color="var(--color-primary-red)"/> 100% màu tự nhiên</span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle2 size={18} color="var(--color-primary-red)"/> Không chất bảo quản</span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle2 size={18} color="var(--color-primary-red)"/> Không phẩm màu công nghiệp</span>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.processItem}>
+                <div className={styles.processIconWrapper}>2</div>
+                <h3 className={styles.processTitle}>Xay và phối trộn bột</h3>
+                <p className={styles.processDesc}>Gạo được xay mịn, sau đó phối trộn cùng nước ép rau củ để tạo nên những sợi hủ tiếu nhiều màu sắc tự nhiên nhưng vẫn giữ được độ dai mềm đặc trưng.</p>
+              </div>
             </div>
-            <div className={styles.processItem}>
-              <div className={styles.processIconWrapper}><ShieldCheck /></div>
-              <h3 className={styles.processTitle}>2. Sơ chế an toàn</h3>
-              <p className={styles.processDesc}>Làm sạch bằng hệ thống nước ozon, đảm bảo vệ sinh 100%.</p>
+          </div>
+
+          <h3 className={styles.phaseTitle}>CÁC CÔNG ĐOẠN CHẾ BIẾN NÊN SỢI HỦ TIẾU</h3>
+          
+          <div className={styles.processPhase}>
+            <div className={styles.processGrid} style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+              <div className={styles.processItem}>
+                <div className={styles.processIconWrapper}>3</div>
+                <h3 className={styles.processTitle}>Tráng bánh thủ công</h3>
+                <p className={styles.processDesc}>Bột được tráng thành từng lớp mỏng trên xửng hấp theo phương pháp truyền thống tại làng nghề, giúp hình thành nên những mảng bánh hủ tiếu mỏng.</p>
+              </div>
+              <div className={styles.processItem}>
+                <div className={styles.processIconWrapper}>4</div>
+                <h3 className={styles.processTitle}>Phơi</h3>
+                <p className={styles.processDesc}>Bánh hủ tiếu sau khi được tráng thì đem phơi dưới ánh nắng tự nhiên trong khoảng 1 ngày để bánh hủ tiếu khô lại.</p>
+              </div>
+              <div className={styles.processItem}>
+                <div className={styles.processIconWrapper}>5</div>
+                <h3 className={styles.processTitle}>Cắt sợi & xử lý thành phẩm</h3>
+                <p className={styles.processDesc}>Sau khi phơi khô, bánh được cắt thành sợi với độ dày vừa phải, đảm bảo dai mềm tự nhiên, không bở khi nấu và dễ chế biến.</p>
+              </div>
             </div>
-            <div className={styles.processItem}>
-              <div className={styles.processIconWrapper}><Flame /></div>
-              <h3 className={styles.processTitle}>3. Chế biến gia truyền</h3>
-              <p className={styles.processDesc}>Sợi hủ tiếu làm thủ công, phơi nắng tự nhiên tại làng nghề.</p>
-            </div>
-            <div className={styles.processItem}>
-              <div className={styles.processIconWrapper}><Truck /></div>
-              <h3 className={styles.processTitle}>4. Đóng gói & Giao hàng</h3>
-              <p className={styles.processDesc}>Giao hàng hỏa tốc trong 30 phút, đảm bảo độ nóng hổi.</p>
+          </div>
+
+          <h3 className={styles.phaseTitle}>PHÂN LOẠI VÀ ĐÓNG GÓI</h3>
+          
+          <div className={styles.processPhase}>
+            <div className={styles.processGrid} style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+              <div className={styles.processItem}>
+                <div className={styles.processIconWrapper}>6</div>
+                <h3 className={styles.processTitle}>Phân loại sản phẩm</h3>
+                <div className={styles.subCategoryBox}>
+                  <div className={styles.subCategoryItem}>
+                    <strong>Hủ tiếu tươi</strong> 
+                    <span>Mềm dai tự nhiên • Thích hợp dùng ngay • Phù hợp món nước/xào</span>
+                  </div>
+                  <div className={styles.subCategoryItem}>
+                    <strong>Hủ tiếu khô</strong>
+                    <span>Được sấy & đóng gói • Dễ bảo quản, mang đi xa • Giữ trọn vị truyền thống</span>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.processItem}>
+                <div className={styles.processIconWrapper}>7</div>
+                <h3 className={styles.processTitle}>Đóng gói & giao hàng</h3>
+                <p className={styles.processDesc}>Sản phẩm đóng gói sạch sẽ, hút chân không và kiểm tra kỹ trước khi giao nhằm đảm bảo: an toàn vệ sinh, giữ độ tươi ngon, thuận tiện bảo quản.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -122,7 +170,7 @@ const Home = () => {
             {categories.map((cat, idx) => (
               <Link key={cat.id} to={`/menu?category=${cat.name}`} className={styles.categoryCard}>
                 <img 
-                  src={idx === 0 ? "https://images.unsplash.com/photo-1626804475297-41609ea004eb?q=80&w=600&auto=format&fit=crop" : idx === 1 ? "https://images.unsplash.com/photo-1552611052-33e04de081de?q=80&w=600&auto=format&fit=crop" : "https://images.unsplash.com/photo-1594221708778-94f1d1746978?q=80&w=600&auto=format&fit=crop"} 
+                  src={idx === 0 ? "/images/hu-tieu-tuoi.jpg" : idx === 1 ? "/images/hu-tieu-kho.jpg" : "/images/hu-tieu-mix.png"} 
                   alt={cat.name} 
                   className={styles.categoryImage} 
                 />
@@ -225,102 +273,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 8. Blog Section */}
-      <section className={styles.blogSection}>
-        <div className="container">
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Chuyện <span className="text-primary">Xóm Tíu</span></h2>
-            <p className={styles.sectionDesc}>Những câu chuyện văn hóa, ẩm thực và đời sống miền Tây.</p>
-          </div>
-          <div className={styles.blogGrid}>
-            <Link to="/feed" className={styles.blogCard}>
-              <img src="https://images.unsplash.com/photo-1508213824874-954f9a071d79?q=80&w=600&auto=format&fit=crop" alt="Blog 1" className={styles.blogImage} />
-              <div className={styles.blogContent}>
-                <span className={styles.blogDate}>Tập 1 • 20 Tháng 5, 2026</span>
-                <h3 className={styles.blogTitle}>Bí quyết làm hủ tiếu rau củ ngũ sắc</h3>
-                <p className={styles.blogExcerpt}>Cùng khám phá cách những người thợ lành nghề tạo ra sợi hủ tiếu tự nhiên...</p>
-              </div>
-            </Link>
-            <Link to="/feed" className={styles.blogCard}>
-              <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=600&auto=format&fit=crop" alt="Blog 2" className={styles.blogImage} />
-              <div className={styles.blogContent}>
-                <span className={styles.blogDate}>Tập 2 • 15 Tháng 5, 2026</span>
-                <h3 className={styles.blogTitle}>Nước dùng thanh ngọt - Hồn cốt món ăn</h3>
-                <p className={styles.blogExcerpt}>Nồi nước dùng 12 tiếng hầm từ xương ống và rau củ tươi mang lại vị ngọt tự nhiên...</p>
-              </div>
-            </Link>
-            <Link to="/feed" className={styles.blogCard}>
-              <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=600&auto=format&fit=crop" alt="Blog 3" className={styles.blogImage} />
-              <div className={styles.blogContent}>
-                <span className={styles.blogDate}>Tập 3 • 10 Tháng 5, 2026</span>
-                <h3 className={styles.blogTitle}>Làng nghề hủ tiếu Sáu Hoài rộn rã</h3>
-                <p className={styles.blogExcerpt}>Ghé thăm làng nghề trăm tuổi vào một sớm mai để thấy tình yêu với hủ tiếu truyền thống...</p>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
 
-      {/* 9. Video Section */}
-      <section className={styles.videoSection}>
-        <div className="container">
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Khám Phá <span className="text-primary">Không Gian Xóm Tíu</span></h2>
-            <p className={styles.sectionDesc}>Video giới thiệu chân thực nhất về những gì chúng tôi đang làm.</p>
-          </div>
-          <div className={styles.videoContainer}>
-            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1000&auto=format&fit=crop" alt="Video cover" className={styles.videoPlaceholder} />
-            <div className={styles.playButton}>
-              <Play size={36} fill="white" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 10. Testimonials */}
-      <section className={styles.testimonialSection}>
-        <div className="container">
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Khách Hàng <span className="text-primary">Nói Gì?</span></h2>
-            <p className={styles.sectionDesc}>Hơn 10,000+ thực khách đã trải nghiệm và hài lòng.</p>
-          </div>
-          <div className={styles.testimonialGrid}>
-            <div className={styles.testimonialCard}>
-              <div className={styles.testimonialStars}>
-                <Star size={18} fill="currentColor" className="inline-block" />
-                <Star size={18} fill="currentColor" className="inline-block" />
-                <Star size={18} fill="currentColor" className="inline-block" />
-                <Star size={18} fill="currentColor" className="inline-block" />
-                <Star size={18} fill="currentColor" className="inline-block" />
-              </div>
-              <p className={styles.testimonialText}>"Hủ tiếu ở đây thực sự xuất sắc. Nước dùng ngọt thanh không bị gắt mùi bột ngọt, sợi hủ tiếu rau củ mềm dai ăn rất lạ miệng. Nhất định sẽ quay lại!"</p>
-              <h4 className={styles.testimonialAuthor}>- Chị Mai Lan</h4>
-            </div>
-            <div className={styles.testimonialCard}>
-              <div className={styles.testimonialStars}>
-                <Star size={18} fill="currentColor" className="inline-block" />
-                <Star size={18} fill="currentColor" className="inline-block" />
-                <Star size={18} fill="currentColor" className="inline-block" />
-                <Star size={18} fill="currentColor" className="inline-block" />
-                <Star size={18} fill="currentColor" className="inline-block" />
-              </div>
-              <p className={styles.testimonialText}>"Mình order giao tận nhà, bao bì rất sạch sẽ và chỉn chu. Hủ tiếu vẫn còn nóng hổi. Mình ấn tượng nhất là hương vị đậm chất miền Tây quê mình."</p>
-              <h4 className={styles.testimonialAuthor}>- Anh Tuấn Khang</h4>
-            </div>
-            <div className={styles.testimonialCard}>
-              <div className={styles.testimonialStars}>
-                <Star size={18} fill="currentColor" className="inline-block" />
-                <Star size={18} fill="currentColor" className="inline-block" />
-                <Star size={18} fill="currentColor" className="inline-block" />
-                <Star size={18} fill="currentColor" className="inline-block" />
-                <Star size={18} fill="currentColor" className="inline-block" />
-              </div>
-              <p className={styles.testimonialText}>"Combo ở đây giá rất hợp lý cho nhóm bạn hoặc gia đình. Phục vụ nhiệt tình, không gian quán rất ấm cúng. Điểm 10 cho chất lượng và dịch vụ."</p>
-              <h4 className={styles.testimonialAuthor}>- Gia đình chị Thu</h4>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* 11. Info / Contact Section */}
       <section className={styles.infoSection}>

@@ -12,7 +12,7 @@ const FeedDetail = () => {
       <div className={`container ${styles.notFound}`}>
         <h2>Không tìm thấy bài viết</h2>
         <Link to="/feed" className="btn btn-primary mt-4">
-          <ArrowLeft size={20} /> Quay lại Tin Tức
+          <ArrowLeft size={20} /> Quay lại Chuyện Xóm Tíu
         </Link>
       </div>
     );
