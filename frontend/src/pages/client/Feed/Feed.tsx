@@ -9,8 +9,8 @@ const episodes = [
     date: '25/10/2025',
     quote: '“Nơi mọi câu chuyện đều xoay quanh...hủ tiếu!”',
     title: 'Tập 1: Cội nguồn sợi tiếu – Hành trình từ làng nghề.',
-    thumb: 'https://images.unsplash.com/photo-1555126634-ae23528b3980?auto=format&fit=crop&q=80&w=400',
-    banner: 'https://images.unsplash.com/photo-1555126634-ae23528b3980?auto=format&fit=crop&q=80',
+    thumb: '/images/tap-1.jpg',
+    banner: '/images/tap-1.jpg',
     content: (
       <>
         <p>Bắt nguồn từ tình yêu với hương vị miền Tây dân dã, Xóm Tíu ra đời như một nơi lưu giữ trọn vẹn tinh hoa ẩm thực truyền thống.</p>
@@ -25,8 +25,8 @@ const episodes = [
     date: '27/10/2025',
     quote: '“Nơi mọi câu chuyện đều xoay quanh...hủ tiếu!”',
     title: 'Tập 2: Cảm nhận đầu tiên qua lời kể.',
-    thumb: 'https://images.unsplash.com/photo-1594998893017-36147cbcae05?auto=format&fit=crop&q=80&w=400',
-    banner: 'https://images.unsplash.com/photo-1594998893017-36147cbcae05?auto=format&fit=crop&q=80',
+    thumb: '/images/tap-2.jpg',
+    banner: '/images/tap-2.jpg',
     content: (
       <>
         <p>Hành trình làm ra sợi hủ tiếu rau củ mang đầy tâm huyết của người dân Xóm Tíu.</p>
@@ -41,8 +41,8 @@ const episodes = [
     date: '29/10/2025',
     quote: '“Nơi mọi câu chuyện đều xoay quanh...hủ tiếu!”',
     title: 'Tập 3: Vào bếp cùng Tíu - Nấu vị quê, thương vị nhà.',
-    thumb: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&q=80&w=400',
-    banner: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&q=80',
+    thumb: '/images/tap-3.jpg',
+    banner: '/images/tap-3.jpg',
     content: (
       <>
         <p>Ăn sạch, sống xanh cùng triết lý ẩm thực tại Xóm Tíu.</p>
