@@ -244,6 +244,8 @@
   width: 100%;
   box-shadow: var(--shadow-md);
   z-index: 40;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
 }
 
 .mobileNavLink {
