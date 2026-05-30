@@ -14,10 +14,12 @@
 ### Frontend (Client & Admin)
 - **Design System:** Tông màu Beige/Taupe trung tính cao cấp. Header có hiệu ứng glassmorphism. Tối ưu hoàn chỉnh Responsive Mobile Menu. Đã cập nhật Title (`Xóm Tíu`) và Favicon tùy chỉnh (bo góc mềm mại).
 - **Client Pages:**
-  - **Trang chủ (`/`)**: Hero banner, section sản phẩm nổi bật, section giá trị cốt lõi.
+  - **Trang chủ (`/`)**: Hero banner, section sản phẩm nổi bật, section giá trị cốt lõi. Giao diện được tinh gọn, tối giản (đã loại bỏ các section dư thừa như Gallery, Blog, Testimonials) tập trung vào nhận diện thương hiệu.
   - **Sản phẩm (`/menu`, `/menu/:id`)**: Tích hợp gọi API lấy danh sách và chi tiết sản phẩm. Cập nhật giao diện phân biệt rõ `shortDescription` và `description`.
+  - **Trang phụ (`/feed`, `/activities`, `/customer-service`)**: Giao diện đồng bộ hoá với tông màu chủ đạo, các nút điều hướng (quay lại danh sách) được tinh chỉnh chỉn chu.
   - **Giỏ Hàng (`/cart`)**: Tích hợp với state quản lý đơn hàng. Tính toán tự động các khoản phí.
   - **Xác thực (`/login`, `/register`)**: Kết hợp form với UX toggle mượt mà, tích hợp API Auth nhận và lưu JWT token.
+- **Mobile Menu**: Giao diện responsive trên điện thoại đã được tinh chỉnh mượt mà. Tích hợp thanh cuộn chống tràn menu và tính năng Dropdown cho danh mục "Tất cả sản phẩm" để trải nghiệm gọn gàng hơn.
 - **Admin Pages:**
   - **Quản lý Sản Phẩm (`/admin/products`)**: Hiển thị danh sách, thêm, sửa, xóa sản phẩm thông qua API thực.
   - **Tính năng Upload Hình Ảnh**: Giao diện Admin đã hỗ trợ tải file ảnh trực tiếp từ máy tính lên server thông qua API `/upload`. Ảnh được hiển thị trọn vẹn (không bị cắt xén) tại form preview nhờ CSS `object-fit: contain`.
