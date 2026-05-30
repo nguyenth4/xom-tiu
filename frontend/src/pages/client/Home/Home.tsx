@@ -257,21 +257,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 7. Gallery Section */}
-      <section className={styles.gallerySection}>
-        <div className="container-fluid" style={{ padding: '0 2%' }}>
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Hình Ảnh <span className="text-primary">Thực Tế</span></h2>
-            <p className={styles.sectionDesc}>Mỗi món ăn là một tác phẩm nghệ thuật đến từ tâm huyết của người đầu bếp.</p>
-          </div>
-          <div className={styles.galleryGrid}>
-            <div className={styles.galleryItem}><img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=400&auto=format&fit=crop" alt="Gallery 1" /></div>
-            <div className={styles.galleryItem}><img src="https://images.unsplash.com/photo-1562565652-a6e87d624992?q=80&w=400&auto=format&fit=crop" alt="Gallery 2" /></div>
-            <div className={styles.galleryItem}><img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?q=80&w=400&auto=format&fit=crop" alt="Gallery 3" /></div>
-            <div className={styles.galleryItem}><img src="https://images.unsplash.com/photo-1548943487-a2e4e43b4853?q=80&w=400&auto=format&fit=crop" alt="Gallery 4" /></div>
-          </div>
-        </div>
-      </section>
+
 
 
 
