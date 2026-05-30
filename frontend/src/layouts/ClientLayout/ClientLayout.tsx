@@ -1,10 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import { ShoppingCart, Menu, X, User, Search } from 'lucide-react';
+import { ShoppingCart, Menu, X, User, Search, Phone } from 'lucide-react';
+import { FaFacebookF, FaInstagram, FaTiktok } from 'react-icons/fa';
+import { api } from '../../services/api';
 import styles from './ClientLayout.module.css';
 
 const ClientLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [categories, setCategories] = useState<{id: number, name: string}[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await api.get('/categories');
+        setCategories(data);
+      } catch (err) {
+        console.error('Failed to fetch categories in layout', err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -15,55 +30,107 @@ const ClientLayout = () => {
   };
 
   return (
-    <div className={styles.layout}>
-      {/* Header */}
-      <header className={`${styles.header} glass-panel`}>
-        <div className={`container ${styles.headerContainer}`}>
-          {/* Mobile Menu Icon */}
-          <button className={`${styles.iconBtn} ${styles.mobileOnly}`} onClick={toggleMobileMenu}>
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-
-          {/* Logo */}
-          <Link to="/" className={styles.logo} onClick={closeMobileMenu}>
-            Xóm<span className="text-primary">Tíu</span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className={styles.navDesktop}>
-            <Link to="/" className={styles.navLink}>Trang chủ</Link>
-            <Link to="/menu" className={styles.navLink}>Thực đơn</Link>
-            <Link to="/about" className={styles.navLink}>Về chúng tôi</Link>
-            <Link to="/feed" className={styles.navLink}>Tin tức</Link>
-            <Link to="/contact" className={styles.navLink}>Liên hệ</Link>
-          </nav>
-
-          {/* Right Actions */}
-          <div className={styles.actions}>
-            <button className={`${styles.iconBtn} ${styles.hideMobile}`}>
-              <Search size={22} />
-            </button>
-            <Link to="/login" className={`${styles.iconBtn} ${styles.hideMobile}`} onClick={closeMobileMenu}>
-              <User size={22} />
-            </Link>
-            <Link to="/cart" className={styles.cartBtn} onClick={closeMobileMenu}>
-              <ShoppingCart size={22} />
-              <span className={styles.cartCount}>2</span>
-            </Link>
+    <div className={styles.layout}>   
+      {/* Header Wrapper */}
+      <div className={styles.headerWrapper}>
+        {/* Top Bar */}
+        <div className={styles.topBar}>
+          <div className={`container ${styles.topBarContainer}`}>
+            <div className={styles.topBarLeft}>
+              <Phone size={14} className={styles.phoneIcon} />
+              <span><span className={styles.topBarText}>Hotline: </span>0854.576.340</span>
+            </div>
+            <div className={styles.topBarRight}>
+              <button className={styles.topBarBtn}>
+                <Search size={14} />
+                <span className={styles.topBarText}>Tìm kiếm</span>
+              </button>
+              <Link to="/login" className={styles.topBarBtn}>
+                <User size={14} />
+                <span className={styles.topBarText}>Tài khoản</span>
+              </Link>
+              <Link to="/cart" className={styles.topBarBtn}>
+                <ShoppingCart size={14} />
+                <span className={styles.topBarText}>Giỏ hàng</span>
+                <span className={styles.cartBadgeTop}>2</span>
+              </Link>
+            </div>
           </div>
         </div>
+
+        {/* Main Header */}
+        <header className={`${styles.header} glass-panel`}>
+          <div className={`container ${styles.headerContainer}`}>
+            {/* Mobile Menu Icon */}
+            <button className={`${styles.iconBtn} ${styles.mobileOnly}`} onClick={toggleMobileMenu}>
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+
+            {/* Desktop Left Nav */}
+            <nav className={styles.navDesktopLeft}>
+              <Link to="/" className={styles.navLink}>Trang Chủ</Link>
+              <Link to="/about" className={styles.navLink}>Giới Thiệu</Link>
+              <div className={styles.navItem}>
+                <Link to="/menu" className={styles.navLink}>Sản Phẩm <span className={styles.chevron}>▾</span></Link>
+                {categories.length > 0 && (
+                  <div className={styles.dropdownMenu}>
+                    {categories.map(cat => (
+                      <Link key={cat.id} to={`/menu?category=${encodeURIComponent(cat.name)}`} className={styles.dropdownItem}>
+                        {cat.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </nav>
+
+            {/* Center Logo */}
+            <Link to="/" className={styles.logoCenter} onClick={closeMobileMenu}>
+              Xóm<span className="text-primary">Tíu</span>
+            </Link>
+
+            {/* Desktop Right Nav */}
+            <nav className={styles.navDesktopRight}>
+              <Link to="/feed" className={styles.navLink}>Tin Tức <span className={styles.chevron}>▾</span></Link>
+              <Link to="/feed" className={styles.navLink}>Hoạt Động <span className={styles.chevron}>▾</span></Link>
+              <Link to="/customer-service" className={styles.navLink}>Chăm Sóc Khách Hàng <span className={styles.chevron}>▾</span></Link>
+            </nav>
+
+            {/* Mobile Right Actions */}
+            <div className={styles.mobileActions}>
+              <button className={styles.iconBtn}>
+                <Search size={22} />
+              </button>
+              <Link to="/cart" className={styles.cartBtn} onClick={closeMobileMenu}>
+                <ShoppingCart size={22} />
+                <span className={styles.cartCount}>2</span>
+              </Link>
+            </div>
+          </div>
+        </header>
 
         {/* Mobile Navigation Dropdown */}
         {isMobileMenuOpen && (
           <nav className={styles.navMobile}>
             <Link to="/" className={styles.mobileNavLink} onClick={closeMobileMenu}>Trang chủ</Link>
-            <Link to="/menu" className={styles.mobileNavLink} onClick={closeMobileMenu}>Thực đơn</Link>
+            <Link to="/menu" className={styles.mobileNavLink} onClick={closeMobileMenu}>Tất cả sản phẩm</Link>
+            {categories.map(cat => (
+              <Link 
+                key={cat.id} 
+                to={`/menu?category=${encodeURIComponent(cat.name)}`} 
+                className={styles.mobileNavLink} 
+                style={{ paddingLeft: '2.5rem', fontSize: '1rem' }}
+                onClick={closeMobileMenu}
+              >
+                - {cat.name}
+              </Link>
+            ))}
             <Link to="/about" className={styles.mobileNavLink} onClick={closeMobileMenu}>Về chúng tôi</Link>
-            <Link to="/feed" className={styles.mobileNavLink} onClick={closeMobileMenu}>Tin tức</Link>
-            <Link to="/contact" className={styles.mobileNavLink} onClick={closeMobileMenu}>Liên hệ</Link>
+            <Link to="/feed" className={styles.mobileNavLink} onClick={closeMobileMenu}>Chuyện Xóm Tíu</Link>
+            <Link to="/customer-service" className={styles.mobileNavLink} onClick={closeMobileMenu}>Chăm sóc khách hàng</Link>
           </nav>
         )}
-      </header>
+      </div>
 
       {/* Main Content */}
       <main className={styles.main}>
@@ -72,6 +139,26 @@ const ClientLayout = () => {
 
       {/* Footer */}
       <footer className={styles.footer}>
+        <div className="container">
+          <div className={styles.newsletterSection}>
+            <div className={styles.newsletterContent}>
+              <h4>ĐĂNG KÝ NHẬN TIN</h4>
+              <p>Đừng bỏ lỡ:</p>
+              <ul>
+                <li>Các chương trình ưu đãi hấp dẫn</li>
+                <li>Công thức món ngon từ hủ tiếu rau củ</li>
+                <li>Bí quyết ăn sạch – sống khỏe</li>
+                <li>Những câu chuyện đậm chất miền Tây từ Xóm Tíu</li>
+              </ul>
+              <p className={styles.newsletterHighlight}>➡ Đăng ký ngay để đồng hành cùng Xóm Tíu trên hành trình lan tỏa hương vị quê hương.</p>
+            </div>
+            <div className={styles.newsletterForm}>
+              <input type="email" placeholder="Nhập email của bạn..." className={styles.newsletterInput} />
+              <button className="btn btn-primary">Đăng ký</button>
+            </div>
+          </div>
+        </div>
+
         <div className={`container ${styles.footerGrid}`}>
           <div className={styles.footerCol}>
             <h3 className={styles.footerLogo}>Xóm<span className="text-primary">Tíu</span></h3>
@@ -83,13 +170,24 @@ const ClientLayout = () => {
               <li><Link to="/menu">Thực đơn</Link></li>
               <li><Link to="/about">Câu chuyện</Link></li>
               <li><Link to="/contact">Liên hệ</Link></li>
+              <li><Link to="/customer-service">Chăm sóc khách hàng</Link></li>
             </ul>
           </div>
           <div className={styles.footerCol}>
             <h4>Thông tin</h4>
             <ul>
-              <li><span className="text-muted">Hotline:</span> 1900 xxxx</li>
-              <li><span className="text-muted">Địa chỉ:</span> 123 Ninh Kiều, TP Cần Thơ</li>
+              <li><span className="text-muted">Hotline / Zalo:</span> 0854576340</li>
+              <li><span className="text-muted">Địa chỉ:</span> Làng nghề hủ tiếu Sáu Hoài, Quận Cái Răng, TP. Cần Thơ</li>
+              <li><span className="text-muted">Thời gian làm việc:</span> 8:00 AM – 9:00 PM</li>
+              <li><span className="text-muted">Email:</span> xomtiu@gmail.com</li>
+            </ul>
+          </div>
+          <div className={styles.footerCol}>
+            <h4>Kênh truyền thông</h4>
+            <ul className={styles.socialLinks}>
+              <li><a href="https://www.facebook.com/profile.php?id=61582241639025&locale=vi_VN" target="_blank" rel="noopener noreferrer"><FaFacebookF size={20} /></a></li>
+              <li><a href="#" target="_blank" rel="noopener noreferrer"><FaInstagram size={20} /></a></li>
+              <li><a href="#" target="_blank" rel="noopener noreferrer"><FaTiktok size={20} /></a></li>
             </ul>
           </div>
         </div>

@@ -1,0 +1,1 @@
+const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); async function main() { await prisma.product.updateMany({ where: { image: '/images/hu-tieu-mix.jpg' }, data: { image: '/images/hu-tieu-mix.png' } }); console.log('Done!'); } main().finally(() => prisma.$disconnect());

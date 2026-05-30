@@ -18,12 +18,17 @@ import AdminProducts from './pages/admin/Products/Products';
 import AdminOrders from './pages/admin/Orders/Orders';
 import OrderDetail from './pages/admin/OrderDetail/OrderDetail';
 import AdminCustomers from './pages/admin/Customers/Customers';
+import AdminCategories from './pages/admin/Categories/Categories';
 
 import './App.css';
+
+import CustomerService from './pages/client/CustomerService/CustomerService';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* Client Routes */}
         <Route path="/" element={<ClientLayout />}>
@@ -37,7 +42,7 @@ function App() {
           <Route path="cart" element={<Cart />} />
           <Route path="login" element={<Auth defaultMode="login" />} />
           <Route path="register" element={<Auth defaultMode="register" />} />
-          {/* Other client routes would go here: checkout */}
+          <Route path="customer-service" element={<CustomerService />} />
         </Route>
 
         {/* Admin Routes */}
@@ -47,6 +52,7 @@ function App() {
           <Route path="orders" element={<AdminOrders />} />
           <Route path="orders/:id" element={<OrderDetail />} />
           <Route path="customers" element={<AdminCustomers />} />
+          <Route path="categories" element={<AdminCategories />} />
           {/* Other admin routes would go here: categories */}
         </Route>
       </Routes>

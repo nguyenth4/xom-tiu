@@ -38,6 +38,13 @@ export const api = {
     return data;
   },
   
+  clearCache: () => {
+    cache.clear();
+    try {
+      sessionStorage.clear();
+    } catch (e) {}
+  },
+
   post: async (endpoint: string, data: any) => {
     const isFormData = data instanceof FormData;
     const response = await fetch(`${API_URL}${endpoint}`, {
@@ -46,6 +53,7 @@ export const api = {
       body: isFormData ? data : JSON.stringify(data),
     });
     if (!response.ok) throw new Error('API request failed');
+    api.clearCache();
     return response.json();
   },
 
@@ -56,6 +64,7 @@ export const api = {
       body: JSON.stringify(data),
     });
     if (!response.ok) throw new Error('API request failed');
+    api.clearCache();
     return response.json();
   },
 
@@ -64,6 +73,7 @@ export const api = {
       method: 'DELETE',
     });
     if (!response.ok) throw new Error('API request failed');
+    api.clearCache();
     return response.json();
   }
 };

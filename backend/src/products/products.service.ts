@@ -18,7 +18,7 @@ export class ProductsService {
     });
   }
 
-  async create(data: { name: string; price: number; stock?: number; status?: string; image?: string; description?: string; categoryId: number }) {
+  async create(data: any) {
     return this.prisma.product.create({ data });
   }
 

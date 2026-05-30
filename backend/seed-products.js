@@ -6,7 +6,7 @@ async function main() {
   await prisma.product.deleteMany();
 
   const categories = await prisma.category.findMany();
-  
+
   const htn = categories.find(c => c.name === 'Hủ Tiếu Nước');
   const htk = categories.find(c => c.name === 'Hủ Tiếu Khô');
   const combo = categories.find(c => c.name === 'Combo');
@@ -43,7 +43,7 @@ async function main() {
       price: 130000,
       stock: 50,
       status: 'Còn hàng',
-      image: '/images/hu-tieu-mix.jpg',
+      image: '/images/hu-tieu-mix.png',
       categoryId: combo ? combo.id : categories[0].id,
       shortDescription: `kết hợp hủ tiếu khô và hủ tiếu tươi, mang trọn hương vị miền Tây trong từng sợi. Giá: 130.000đ / hộp`,
       description: longDesc

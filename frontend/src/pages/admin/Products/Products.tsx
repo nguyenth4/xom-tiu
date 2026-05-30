@@ -45,7 +45,8 @@ const AdminProducts = () => {
         status: product.status,
         image: product.image || '',
         shortDescription: product.shortDescription || '',
-        description: product.description || ''
+        description: product.description || '',
+        variants: product.variants || []
       });
     } else {
       setEditingProduct(null);
@@ -72,9 +73,13 @@ const AdminProducts = () => {
     }
   };
 
-  const filteredProducts = products.filter(product => 
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory ? product.categoryId?.toString() === selectedCategory : true;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className={`animate-fade-in ${styles.adminProductsPage}`}>
@@ -99,9 +104,20 @@ const AdminProducts = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <button className="btn btn-outline" style={{ background: 'white' }}>
-          <Filter size={20} /> Lọc
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Filter size={20} className="text-muted" />
+          <select 
+            className="input-field" 
+            value={selectedCategory}
+            onChange={e => setSelectedCategory(e.target.value)}
+            style={{ width: '200px' }}
+          >
+            <option value="">Tất cả danh mục</option>
+            {categories.map(cat => (
+              <option key={cat.id} value={cat.id.toString()}>{cat.name}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className={styles.tableContainer}>

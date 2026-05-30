@@ -48,6 +48,7 @@ model Product {
   image            String?
   description      String?
   shortDescription String?
+  variants         Json?    // Added for product variations e.g. 1kg, 2kg
   categoryId       Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

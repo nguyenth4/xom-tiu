@@ -1,5 +1,5 @@
 import { Outlet, Link } from 'react-router-dom';
-import { LayoutDashboard, ShoppingBag, Users, Settings, LogOut, ShoppingCart, Store } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Users, Settings, LogOut, ShoppingCart, Store, Tags } from 'lucide-react';
 import styles from './AdminLayout.module.css';
 
 const AdminLayout = () => {
@@ -18,6 +18,10 @@ const AdminLayout = () => {
           <Link to="/admin/products" className={styles.navItem}>
             <ShoppingBag size={20} />
             <span>Sản phẩm</span>
+          </Link>
+          <Link to="/admin/categories" className={styles.navItem}>
+            <Tags size={20} />
+            <span>Danh mục</span>
           </Link>
           <Link to="/admin/orders" className={styles.navItem}>
             <ShoppingCart size={20} />

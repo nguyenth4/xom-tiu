@@ -9,21 +9,17 @@ const ProductDetail = () => {
   const [product, setProduct] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
-  const [selectedToppings, setSelectedToppings] = useState<string[]>([]);
-
-  // Fixed toppings for demo
-  const toppings = [
-    { id: 't1', name: 'Thêm tôm (2 con)', price: 15000 },
-    { id: 't2', name: 'Thêm trứng cút (3 quả)', price: 10000 },
-    { id: 't3', name: 'Thêm xí quách', price: 25000 },
-    { id: 't4', name: 'Thêm tóp mỡ', price: 5000 },
-  ];
+  const [selectedVariant, setSelectedVariant] = useState<any>(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const data = await api.get(`/products/${id}`);
+        // Bypass cache for product detail to always get the latest variants, price, and stock
+        const data = await api.get(`/products/${id}`, false);
         setProduct(data);
+        if (data.variants && data.variants.length > 0) {
+          setSelectedVariant(data.variants[0]);
+        }
       } catch (error) {
         console.error('Failed to fetch product detail', error);
       } finally {
@@ -33,13 +29,6 @@ const ProductDetail = () => {
     if (id) fetchProduct();
   }, [id]);
 
-  const handleToppingToggle = (toppingId: string) => {
-    setSelectedToppings(prev => 
-      prev.includes(toppingId) 
-        ? prev.filter(t => t !== toppingId)
-        : [...prev, toppingId]
-    );
-  };
 
   const handleDecrease = () => setQuantity(q => Math.max(1, q - 1));
   const handleIncrease = () => setQuantity(q => q + 1);
@@ -76,7 +65,7 @@ const ProductDetail = () => {
         <div className={styles.infoSection}>
           <h1 className={styles.title}>{product.name}</h1>
           <div className={styles.price}>
-            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
+            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(selectedVariant ? selectedVariant.price : product.price)}
           </div>
           
           {product.shortDescription && (
@@ -85,24 +74,31 @@ const ProductDetail = () => {
             </div>
           )}
 
-          <div className={styles.optionsSection}>
-            <h3 className={styles.optionsTitle}>Tùy chọn thêm (Toppings)</h3>
-            <div className={styles.optionsGrid}>
-              {toppings.map(topping => (
-                <label key={topping.id} className={styles.optionLabel}>
-                  <input 
-                    type="checkbox" 
-                    checked={selectedToppings.includes(topping.id)}
-                    onChange={() => handleToppingToggle(topping.id)}
-                  />
-                  <span className={styles.optionText}>{topping.name}</span>
-                  <span className={styles.optionPrice}>
-                    +{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topping.price)}
-                  </span>
-                </label>
-              ))}
+          {product.variants && product.variants.length > 0 && (
+            <div className={styles.optionsSection}>
+              <h3 className={styles.optionsTitle}>Phân loại / Biến thể</h3>
+              <div className={styles.optionsGrid}>
+                {product.variants.map((v: any, idx: number) => (
+                  <label 
+                    key={idx} 
+                    className={styles.optionLabel} 
+                    style={{ borderColor: selectedVariant?.name === v.name ? 'var(--color-primary-red)' : 'var(--color-border)' }}
+                  >
+                    <input 
+                      type="radio" 
+                      name="variant"
+                      checked={selectedVariant?.name === v.name}
+                      onChange={() => setSelectedVariant(v)}
+                    />
+                    <span className={styles.optionText}>{v.name}</span>
+                    <span className={styles.optionPrice}>
+                      {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(v.price)}
+                    </span>
+                  </label>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <div className={styles.actions}>
             <div className={styles.quantityCtrl}>
@@ -125,7 +121,7 @@ const ProductDetail = () => {
       {product.description && (
         <div className={styles.longDescriptionSection} style={{ marginTop: '4rem', padding: '2rem', backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.03)' }}>
           <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#333', borderBottom: '2px solid #e0e0e0', paddingBottom: '0.5rem', display: 'inline-block' }}>
-            Mô tả sản phẩm
+            Thông tin sản phẩm
           </h2>
           <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.8', color: '#555', fontSize: '1.05rem' }}>
             {product.description}

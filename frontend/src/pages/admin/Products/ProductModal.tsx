@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import styles from './Products.module.css';
 import { api } from '../../../services/api';
+
+export interface ProductVariant {
+  name: string;
+  price: number;
+}
 
 export interface ProductFormData {
   id?: number;
@@ -13,6 +19,7 @@ export interface ProductFormData {
   image: string;
   shortDescription: string;
   description: string;
+  variants: ProductVariant[];
 }
 
 interface ProductModalProps {
@@ -24,15 +31,15 @@ interface ProductModalProps {
 
 const ProductModal = ({ isOpen, onClose, product, categories }: ProductModalProps) => {
   const [formData, setFormData] = useState<ProductFormData>({
-    name: '', price: '', category: '', stock: 0, status: 'Còn hàng', image: '', shortDescription: '', description: ''
+    name: '', price: '', category: '', stock: 0, status: 'Còn hàng', image: '', shortDescription: '', description: '', variants: []
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (product) {
-      setFormData(product);
+      setFormData({ ...product, variants: product.variants || [] });
     } else {
-      setFormData({ name: '', price: '', category: '', stock: 0, status: 'Còn hàng', image: '', shortDescription: '', description: '' });
+      setFormData({ name: '', price: '', category: '', stock: 0, status: 'Còn hàng', image: '', shortDescription: '', description: '', variants: [] });
     }
   }, [product, isOpen]);
 
@@ -56,7 +63,8 @@ const ProductModal = ({ isOpen, onClose, product, categories }: ProductModalProp
       status: formData.status,
       image: formData.image,
       shortDescription: formData.shortDescription,
-      description: formData.description
+      description: formData.description,
+      variants: formData.variants
     };
 
     try {
@@ -73,7 +81,7 @@ const ProductModal = ({ isOpen, onClose, product, categories }: ProductModalProp
     }
   };
 
-  return (
+  const modalUI = (
     <div className={styles.modalOverlay} onClick={() => onClose(false)}>
       <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
         <div className={styles.modalHeader}>
@@ -178,6 +186,61 @@ const ProductModal = ({ isOpen, onClose, product, categories }: ProductModalProp
           </div>
 
           <div className={styles.formGroup}>
+            <label className="flex justify-between items-center">
+              <span>Biến thể sản phẩm (Kích thước, Trọng lượng...)</span>
+              <button 
+                type="button" 
+                className="text-xs text-red-600 bg-red-50 px-2 py-1 rounded hover:bg-red-100"
+                onClick={() => setFormData(prev => ({ ...prev, variants: [...prev.variants, { name: '', price: 0 }] }))}
+              >
+                + Thêm biến thể
+              </button>
+            </label>
+            {formData.variants.length > 0 && (
+              <div className="flex flex-col gap-2 mt-2 bg-gray-50 p-3 rounded-md">
+                {formData.variants.map((variant, index) => (
+                  <div key={index} className="flex gap-2 items-center">
+                    <input 
+                      type="text" 
+                      className="input-field flex-1" 
+                      placeholder="Tên (VD: 1kg)" 
+                      value={variant.name}
+                      onChange={(e) => {
+                        const newVariants = [...formData.variants];
+                        newVariants[index].name = e.target.value;
+                        setFormData(prev => ({ ...prev, variants: newVariants }));
+                      }}
+                      required
+                    />
+                    <input 
+                      type="number" 
+                      className="input-field flex-1" 
+                      placeholder="Giá (VD: 40000)" 
+                      value={variant.price}
+                      onChange={(e) => {
+                        const newVariants = [...formData.variants];
+                        newVariants[index].price = Number(e.target.value);
+                        setFormData(prev => ({ ...prev, variants: newVariants }));
+                      }}
+                      required
+                    />
+                    <button 
+                      type="button" 
+                      className="p-2 text-gray-500 hover:text-red-500"
+                      onClick={() => {
+                        const newVariants = formData.variants.filter((_, i) => i !== index);
+                        setFormData(prev => ({ ...prev, variants: newVariants }));
+                      }}
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className={styles.formGroup}>
             <label>Mô tả ngắn</label>
             <textarea 
               name="shortDescription"
@@ -211,6 +274,8 @@ const ProductModal = ({ isOpen, onClose, product, categories }: ProductModalProp
       </div>
     </div>
   );
+
+  return createPortal(modalUI, document.body);
 };
 
 export default ProductModal;

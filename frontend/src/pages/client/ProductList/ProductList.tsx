@@ -3,26 +3,48 @@ import { Link } from 'react-router-dom';
 import styles from './ProductList.module.css';
 import { api } from '../../../services/api';
 
-const CATEGORIES = ['Tất cả', 'Hủ Tiếu Nước', 'Hủ Tiếu Khô', 'Combo'];
+import { useSearchParams } from 'react-router-dom';
 
 const ProductList = () => {
-  const [activeCategory, setActiveCategory] = useState('Tất cả');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryParam = searchParams.get('category');
+  const [activeCategory, setActiveCategory] = useState(categoryParam || 'Tất cả');
   const [products, setProducts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<{id: number, name: string}[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Sync state when URL params change (e.g. from dropdown click in Layout)
   useEffect(() => {
-    const fetchProducts = async () => {
+    setActiveCategory(searchParams.get('category') || 'Tất cả');
+  }, [searchParams]);
+
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        const data = await api.get('/products');
-        setProducts(data);
+        const [productsData, categoriesData] = await Promise.all([
+          api.get('/products'),
+          api.get('/categories')
+        ]);
+        setProducts(productsData);
+        setCategories(categoriesData);
       } catch (error) {
-        console.error('Failed to fetch products', error);
+        console.error('Failed to fetch data', error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchProducts();
+    fetchData();
   }, []);
+
+  const handleCategoryClick = (categoryName: string) => {
+    setActiveCategory(categoryName);
+    if (categoryName === 'Tất cả') {
+      searchParams.delete('category');
+      setSearchParams(searchParams);
+    } else {
+      setSearchParams({ category: categoryName });
+    }
+  };
 
   const filteredProducts = activeCategory === 'Tất cả'
     ? products
@@ -36,13 +58,19 @@ const ProductList = () => {
       </div>
 
       <div className={styles.filters}>
-        {CATEGORIES.map(category => (
+        <button
+          className={`${styles.filterBtn} ${activeCategory === 'Tất cả' ? styles.active : ''}`}
+          onClick={() => handleCategoryClick('Tất cả')}
+        >
+          Tất cả
+        </button>
+        {categories.map(category => (
           <button
-            key={category}
-            className={`${styles.filterBtn} ${activeCategory === category ? styles.active : ''}`}
-            onClick={() => setActiveCategory(category)}
+            key={category.id}
+            className={`${styles.filterBtn} ${activeCategory === category.name ? styles.active : ''}`}
+            onClick={() => handleCategoryClick(category.name)}
           >
-            {category}
+            {category.name}
           </button>
         ))}
       </div>
@@ -69,7 +97,9 @@ const ProductList = () => {
               {product.category?.name === 'Combo' && <span className={styles.productTag}>Tiết kiệm</span>}
               <img src={product.image} alt={product.name} className={styles.productImg} />
               <div className={styles.productOverlay}>
-                <button className="btn btn-primary">Thêm vào giỏ</button>
+                <button className="btn btn-primary">
+                  {product.variants && product.variants.length > 0 ? 'Chọn tùy chọn' : 'Thêm vào giỏ'}
+                </button>
               </div>
             </div>
             <div className={styles.productInfo}>
@@ -80,7 +110,11 @@ const ProductList = () => {
                 </p>
               )}
               <div className={styles.productPrice}>
-                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
+                {product.variants && product.variants.length > 0 ? (
+                  <>Từ {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Math.min(...product.variants.map((v: any) => v.price)))}</>
+                ) : (
+                  new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)
+                )}
               </div>
             </div>
           </Link>
