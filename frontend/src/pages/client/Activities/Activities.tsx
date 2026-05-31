@@ -59,7 +59,7 @@ const activities = [
   {
     id: 1,
     tabName: 'Quy Trình Làm Hủ Tiếu',
-    title: 'Hành Trình Tạo Nên Sợi Hủ Tiếu Chứ Danh',
+    title: 'Hành Trình Tạo Nên Sợi Hủ Tiếu Trứ Danh',
     banner: '/images/quy-trinh-san-xuat.JPG',
     content: (
       <>
