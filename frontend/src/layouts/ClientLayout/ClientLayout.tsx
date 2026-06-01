@@ -11,7 +11,7 @@ const ClientLayout = () => {
   const [categories, setCategories] = useState<{id: number, name: string}[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const [user, setUser] = useState<{name: string, email: string} | null>(null);
+  const [user, setUser] = useState<{name: string, email: string, role?: string} | null>(null);
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
@@ -89,6 +89,11 @@ const ClientLayout = () => {
                 <div className={styles.topBarBtn} style={{ cursor: 'default' }}>
                   <User size={14} />
                   <span className={styles.topBarText}>Xin chào, {user.name}</span>
+                  {user.role === 'ADMIN' && (
+                    <Link to="/admin" style={{ marginLeft: '10px', color: 'var(--color-primary-red)', fontSize: '12px', fontWeight: 'bold' }}>
+                      Trang Quản trị
+                    </Link>
+                  )}
                   <button 
                     onClick={() => {
                       localStorage.removeItem('user');
