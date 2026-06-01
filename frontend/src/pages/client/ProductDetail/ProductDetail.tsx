@@ -142,9 +142,22 @@ const ProductDetail = () => {
                 <Plus size={20} />
               </button>
             </div>
-            <button className={`btn btn-primary ${styles.addToCartBtn}`} onClick={handleAddToCart}>
-              <ShoppingCart size={20} /> Thêm vào giỏ hàng
-            </button>
+            {(() => {
+              const userStr = localStorage.getItem('user');
+              const isAdmin = userStr ? JSON.parse(userStr).role === 'ADMIN' : false;
+              if (isAdmin) {
+                return (
+                  <button className={`btn btn-secondary ${styles.addToCartBtn}`} disabled style={{ opacity: 0.7, cursor: 'not-allowed', backgroundColor: '#ccc', borderColor: '#ccc', color: '#666' }}>
+                    <ShoppingCart size={20} /> Admin không mua hàng
+                  </button>
+                );
+              }
+              return (
+                <button className={`btn btn-primary ${styles.addToCartBtn}`} onClick={handleAddToCart}>
+                  <ShoppingCart size={20} /> Thêm vào giỏ hàng
+                </button>
+              );
+            })()}
           </div>
         </div>
       </div>

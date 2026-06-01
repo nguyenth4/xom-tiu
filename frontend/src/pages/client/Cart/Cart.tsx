@@ -73,6 +73,12 @@ const Cart = () => {
       navigate('/login');
       return;
     }
+    
+    const user = JSON.parse(userStr);
+    if (user.role === 'ADMIN') {
+      alert('Tài khoản Admin không thể đặt hàng.');
+      return;
+    }
 
     if (!address || !phone) {
       alert('Vui lòng nhập địa chỉ và số điện thoại giao hàng.');
@@ -178,30 +184,47 @@ const Cart = () => {
             <span>{formatPrice(total)}</span>
           </div>
 
-          {localStorage.getItem('user') && (
-            <div style={{ marginTop: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <input 
-                type="text" 
-                className="input-field" 
-                placeholder="Số điện thoại nhận hàng" 
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-              />
-              <input 
-                type="text" 
-                className="input-field" 
-                placeholder="Địa chỉ nhận hàng (Ví dụ: 123 Lê Lợi, Q.1)" 
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                required
-              />
-            </div>
-          )}
+          {(() => {
+            const userStr = localStorage.getItem('user');
+            const user = userStr ? JSON.parse(userStr) : null;
+            const isAdmin = user?.role === 'ADMIN';
 
-          <button className={`btn btn-primary ${styles.checkoutBtn}`} onClick={handleCheckout}>
-            {localStorage.getItem('user') ? 'Tiến hành thanh toán' : 'Đăng nhập để thanh toán'}
-          </button>
+            if (isAdmin) {
+              return (
+                <div style={{ marginTop: '20px', color: '#e74c3c', textAlign: 'center', fontWeight: 'bold', padding: '15px', backgroundColor: '#fdf0ed', borderRadius: '8px' }}>
+                  Tài khoản Admin không thể thực hiện đặt hàng.
+                </div>
+              );
+            }
+
+            return (
+              <>
+                {user && (
+                  <div style={{ marginTop: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <input 
+                      type="text" 
+                      className="input-field" 
+                      placeholder="Số điện thoại nhận hàng" 
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      required
+                    />
+                    <input 
+                      type="text" 
+                      className="input-field" 
+                      placeholder="Địa chỉ nhận hàng (Ví dụ: 123 Lê Lợi, Q.1)" 
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      required
+                    />
+                  </div>
+                )}
+                <button className={`btn btn-primary ${styles.checkoutBtn}`} onClick={handleCheckout}>
+                  {user ? 'Tiến hành thanh toán' : 'Đăng nhập để thanh toán'}
+                </button>
+              </>
+            );
+          })()}
         </div>
       </div>
     </div>
