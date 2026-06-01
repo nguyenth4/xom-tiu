@@ -66,15 +66,15 @@ const Cart = () => {
   };
 
   const handleCheckout = async () => {
-    if (!address || !phone) {
-      alert('Vui lòng nhập địa chỉ và số điện thoại giao hàng.');
-      return;
-    }
-    
     const userStr = localStorage.getItem('user');
     if (!userStr) {
       alert('Vui lòng đăng nhập để tiếp tục thanh toán');
       navigate('/login');
+      return;
+    }
+
+    if (!address || !phone) {
+      alert('Vui lòng nhập địa chỉ và số điện thoại giao hàng.');
       return;
     }
     
@@ -177,27 +177,29 @@ const Cart = () => {
             <span>{formatPrice(total)}</span>
           </div>
 
-          <div style={{ marginTop: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <input 
-              type="text" 
-              className="input-field" 
-              placeholder="Số điện thoại nhận hàng" 
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-            />
-            <input 
-              type="text" 
-              className="input-field" 
-              placeholder="Địa chỉ nhận hàng (Ví dụ: 123 Lê Lợi, Q.1)" 
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              required
-            />
-          </div>
+          {localStorage.getItem('user') && (
+            <div style={{ marginTop: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <input 
+                type="text" 
+                className="input-field" 
+                placeholder="Số điện thoại nhận hàng" 
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
+              <input 
+                type="text" 
+                className="input-field" 
+                placeholder="Địa chỉ nhận hàng (Ví dụ: 123 Lê Lợi, Q.1)" 
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                required
+              />
+            </div>
+          )}
 
           <button className={`btn btn-primary ${styles.checkoutBtn}`} onClick={handleCheckout}>
-            Tiến hành thanh toán
+            {localStorage.getItem('user') ? 'Tiến hành thanh toán' : 'Đăng nhập để thanh toán'}
           </button>
         </div>
       </div>
