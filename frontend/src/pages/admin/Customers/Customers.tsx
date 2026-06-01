@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, Mail, Phone, MoreHorizontal } from 'lucide-react';
+import { api } from '../../../services/api';
 import styles from './Customers.module.css';
 
 interface CustomerData {
@@ -8,24 +9,39 @@ interface CustomerData {
   email: string;
   phone: string;
   totalOrders: number;
-  totalSpent: string;
-  avatar: string;
+  totalSpent: number;
+  avatar?: string;
+  role: string;
 }
-
-const MOCK_CUSTOMERS: CustomerData[] = [
-  { id: 'CUS-01', name: 'Nguyễn Văn A', email: 'nguyenvana@example.com', phone: '0901234567', totalOrders: 5, totalSpent: '450,000đ', avatar: 'https://i.pravatar.cc/150?img=11' },
-  { id: 'CUS-02', name: 'Trần Thị B', email: 'tranthib@example.com', phone: '0987654321', totalOrders: 2, totalSpent: '130,000đ', avatar: 'https://i.pravatar.cc/150?img=5' },
-  { id: 'CUS-03', name: 'Lê Hoàng C', email: 'lehoangc@example.com', phone: '0912345678', totalOrders: 1, totalSpent: '250,000đ', avatar: 'https://i.pravatar.cc/150?img=8' },
-  { id: 'CUS-04', name: 'Phạm Văn D', email: 'phamvand@example.com', phone: '0933445566', totalOrders: 10, totalSpent: '1,200,000đ', avatar: 'https://i.pravatar.cc/150?img=12' },
-];
 
 const AdminCustomers = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [customers, setCustomers] = useState<CustomerData[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredCustomers = MOCK_CUSTOMERS.filter(customer => 
-    customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.phone.includes(searchTerm)
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const data = await api.get('/users');
+        setCustomers(data);
+      } catch (err) {
+        console.error('Failed to fetch customers', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCustomers();
+  }, []);
+
+  const filteredCustomers = customers.filter(customer => 
+    (customer.name && customer.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (customer.phone && customer.phone.includes(searchTerm)) ||
+    (customer.email && customer.email.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+  };
 
   return (
     <div className={`animate-fade-in ${styles.adminCustomersPage}`}>
@@ -61,35 +77,47 @@ const AdminCustomers = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredCustomers.map((customer) => (
-              <tr key={customer.id}>
-                <td>
-                  <div className={styles.customerCell}>
-                    <img src={customer.avatar} alt={customer.name} className={styles.avatar} />
-                    <div>
-                      <div className={styles.customerName}>{customer.name}</div>
-                      <div className={styles.customerId}>{customer.id}</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div className={styles.contactInfo}>
-                    <span className="flex items-center gap-2 text-muted"><Mail size={14} /> {customer.email}</span>
-                    <span className="flex items-center gap-2 text-muted"><Phone size={14} /> {customer.phone}</span>
-                  </div>
-                </td>
-                <td className="text-center font-bold">{customer.totalOrders}</td>
-                <td className="font-bold text-primary">{customer.totalSpent}</td>
-                <td>
-                  <div className={styles.actionButtons}>
-                    <button className={styles.actionBtnView} title="Thêm tùy chọn">
-                      <MoreHorizontal size={18} />
-                    </button>
-                  </div>
-                </td>
+            {loading ? (
+              <tr>
+                <td colSpan={5} className="text-center" style={{ padding: '3rem' }}>Đang tải dữ liệu...</td>
               </tr>
-            ))}
-            {filteredCustomers.length === 0 && (
+            ) : filteredCustomers.length > 0 ? (
+              filteredCustomers.map((customer) => (
+                <tr key={customer.id}>
+                  <td>
+                    <div className={styles.customerCell}>
+                      <img 
+                        src={customer.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(customer.name || customer.email)}&background=random`} 
+                        alt={customer.name} 
+                        className={styles.avatar} 
+                      />
+                      <div>
+                        <div className={styles.customerName}>
+                          {customer.name || 'Chưa cập nhật'}
+                          {customer.role === 'ADMIN' && <span style={{ marginLeft: '8px', fontSize: '10px', backgroundColor: '#e74c3c', color: 'white', padding: '2px 6px', borderRadius: '4px' }}>ADMIN</span>}
+                        </div>
+                        <div className={styles.customerId} style={{ fontSize: '0.75rem' }}>{customer.id.substring(0, 8)}...</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div className={styles.contactInfo}>
+                      <span className="flex items-center gap-2 text-muted"><Mail size={14} /> {customer.email}</span>
+                      <span className="flex items-center gap-2 text-muted"><Phone size={14} /> {customer.phone || 'Chưa cập nhật'}</span>
+                    </div>
+                  </td>
+                  <td className="text-center font-bold">{customer.totalOrders}</td>
+                  <td className="font-bold text-primary">{formatPrice(customer.totalSpent)}</td>
+                  <td>
+                    <div className={styles.actionButtons}>
+                      <button className={styles.actionBtnView} title="Thêm tùy chọn">
+                        <MoreHorizontal size={18} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
               <tr>
                 <td colSpan={5} className="text-center" style={{ padding: '3rem' }}>
                   Không tìm thấy khách hàng nào.

@@ -6,7 +6,25 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.user.findMany();
+    const users = await this.prisma.user.findMany({
+      include: {
+        orders: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      }
+    });
+
+    return users.map(user => {
+      const totalOrders = user.orders.length;
+      const totalSpent = user.orders.reduce((sum, order) => sum + (order.total || 0), 0);
+      const { password, orders, ...userWithoutPassword } = user;
+      return {
+        ...userWithoutPassword,
+        totalOrders,
+        totalSpent
+      };
+    });
   }
 
   async findOne(id: string) {
