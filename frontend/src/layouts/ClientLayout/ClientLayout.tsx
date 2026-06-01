@@ -20,11 +20,9 @@ const ClientLayout = () => {
         setUser(JSON.parse(userStr));
       } catch (e) {}
     } else {
-      if (location.pathname !== '/login' && location.pathname !== '/register') {
-        navigate('/login');
-      }
+      setUser(null);
     }
-  }, [location.pathname, navigate]);
+  }, [location.pathname]);
 
   useEffect(() => {
     const fetchCategories = async () => {
