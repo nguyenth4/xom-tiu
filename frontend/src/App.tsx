@@ -13,6 +13,7 @@ import Auth from './pages/client/Auth/Auth';
 import Feed from './pages/client/Feed/Feed';
 import FeedDetail from './pages/client/FeedDetail/FeedDetail';
 import Activities from './pages/client/Activities/Activities';
+import Success from './pages/client/Checkout/Success';
 // Admin Pages
 import Dashboard from './pages/admin/Dashboard/Dashboard';
 import AdminProducts from './pages/admin/Products/Products';
@@ -42,6 +43,7 @@ function App() {
           <Route path="feed/:id" element={<FeedDetail />} />
           <Route path="activities" element={<Activities />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="success" element={<Success />} />
           <Route path="login" element={<Auth defaultMode="login" />} />
           <Route path="register" element={<Auth defaultMode="register" />} />
           <Route path="customer-service" element={<CustomerService />} />

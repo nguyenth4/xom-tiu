@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
+import { api } from '../../services/api';
 import styles from './Cart.module.css';
 
 // Mock Cart Data
@@ -27,6 +28,9 @@ const INITIAL_CART = [
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState(INITIAL_CART);
+  const [address, setAddress] = useState('');
+  const [phone, setPhone] = useState('');
+  const navigate = useNavigate();
 
   const updateQuantity = (id: string, newQty: number) => {
     if (newQty < 1) return;
@@ -43,6 +47,43 @@ const Cart = () => {
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+  };
+
+  const handleCheckout = async () => {
+    if (!address || !phone) {
+      alert('Vui lòng nhập địa chỉ và số điện thoại giao hàng.');
+      return;
+    }
+    
+    const userStr = localStorage.getItem('user');
+    if (!userStr) {
+      alert('Vui lòng đăng nhập để tiếp tục thanh toán');
+      navigate('/login');
+      return;
+    }
+    
+    try {
+      const user = JSON.parse(userStr);
+      await api.post('/orders', {
+        userId: user.id || 1,
+        shippingAddress: address,
+        phone,
+        total,
+        subtotal,
+        status: 'Chờ xác nhận',
+        items: cartItems.map(item => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          price: item.price
+        }))
+      });
+      // Clear cart
+      setCartItems([]);
+      navigate('/success');
+    } catch (error) {
+      console.error('Checkout error:', error);
+      alert('Có lỗi xảy ra khi tạo đơn hàng. Vui lòng thử lại sau.');
+    }
   };
 
   if (cartItems.length === 0) {
@@ -120,7 +161,26 @@ const Cart = () => {
             <span>{formatPrice(total)}</span>
           </div>
 
-          <button className={`btn btn-primary ${styles.checkoutBtn}`}>
+          <div style={{ marginTop: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <input 
+              type="text" 
+              className="input-field" 
+              placeholder="Số điện thoại nhận hàng" 
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+            <input 
+              type="text" 
+              className="input-field" 
+              placeholder="Địa chỉ nhận hàng (Ví dụ: 123 Lê Lợi, Q.1)" 
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              required
+            />
+          </div>
+
+          <button className={`btn btn-primary ${styles.checkoutBtn}`} onClick={handleCheckout}>
             Tiến hành thanh toán
           </button>
         </div>
