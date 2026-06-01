@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
-import { api } from '../../services/api';
+import { api } from '../../../services/api';
 import styles from './Cart.module.css';
 
 // Mock Cart Data
