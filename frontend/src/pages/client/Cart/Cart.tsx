@@ -44,6 +44,7 @@ const Cart = () => {
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
+    window.dispatchEvent(new Event('cartUpdated'));
   }, [cartItems]);
 
   const navigate = useNavigate();

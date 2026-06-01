@@ -12,6 +12,30 @@ const ClientLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState<{name: string, email: string} | null>(null);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const updateCartCount = () => {
+      const savedCart = localStorage.getItem('cart');
+      if (savedCart) {
+        try {
+          const cart = JSON.parse(savedCart);
+          setCartCount(cart.reduce((sum: number, item: any) => sum + item.quantity, 0));
+        } catch (e) {
+          setCartCount(0);
+        }
+      } else {
+        setCartCount(0);
+      }
+    };
+    updateCartCount();
+    window.addEventListener('storage', updateCartCount);
+    window.addEventListener('cartUpdated', updateCartCount);
+    return () => {
+      window.removeEventListener('storage', updateCartCount);
+      window.removeEventListener('cartUpdated', updateCartCount);
+    };
+  }, []);
 
   useEffect(() => {
     const userStr = localStorage.getItem('user');
@@ -86,7 +110,7 @@ const ClientLayout = () => {
               <Link to="/cart" className={styles.topBarBtn}>
                 <ShoppingCart size={14} />
                 <span className={styles.topBarText}>Giỏ hàng</span>
-                <span className={styles.cartBadgeTop}>2</span>
+                {cartCount > 0 && <span className={styles.cartBadgeTop}>{cartCount}</span>}
               </Link>
             </div>
           </div>
@@ -137,7 +161,7 @@ const ClientLayout = () => {
               </button>
               <Link to="/cart" className={styles.cartBtn} onClick={closeMobileMenu}>
                 <ShoppingCart size={22} />
-                <span className={styles.cartCount}>2</span>
+                {cartCount > 0 && <span className={styles.cartCount}>{cartCount}</span>}
               </Link>
             </div>
           </div>

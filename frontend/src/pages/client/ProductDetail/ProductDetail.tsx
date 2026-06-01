@@ -61,6 +61,7 @@ const ProductDetail = () => {
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));
+    window.dispatchEvent(new Event('cartUpdated'));
     alert('Đã thêm sản phẩm vào giỏ hàng');
   };
 
