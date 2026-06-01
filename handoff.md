@@ -6,48 +6,44 @@
 **Tech Stack:**
 - **Frontend:** React 18, Vite, TypeScript, CSS Modules (Vanilla CSS), Lucide React, React Router DOM.
 - **Backend:** NestJS, TypeScript, Prisma ORM, PostgreSQL.
-- **Payment Gateway:** Stripe.
-- **Storage:** Local storage cho hình ảnh sản phẩm tải lên (đặt tại `frontend/public/images`).
+- **Storage:** Supabase Storage cho hình ảnh sản phẩm tải lên.
+- **Deployment:** Vercel (Frontend) & Railway (Backend).
 
 ## 2. Completed Features & State (Fullstack)
 
 ### Frontend (Client & Admin)
-- **Design System:** Tông màu Beige/Taupe trung tính cao cấp. Header có hiệu ứng glassmorphism. Tối ưu hoàn chỉnh Responsive Mobile Menu. Đã cập nhật Title (`Xóm Tíu`) và Favicon tùy chỉnh (bo góc mềm mại).
+- **Design System:** Tông màu Beige/Taupe trung tính cao cấp. Header có hiệu ứng glassmorphism. Tối ưu hoàn chỉnh Responsive Mobile Menu. Đã cập nhật Title (`Xóm Tíu`) và Favicon tùy chỉnh (bo góc mềm mại). Nút "Trang Quản trị" trên topbar dành cho Admin được làm nổi bật với màu vàng gold.
 - **Client Pages:**
-  - **Trang chủ (`/`)**: Hero banner, section sản phẩm nổi bật, section giá trị cốt lõi. Giao diện được tinh gọn, tối giản (đã loại bỏ các section dư thừa như Gallery, Blog, Testimonials) tập trung vào nhận diện thương hiệu.
-  - **Sản phẩm (`/menu`, `/menu/:id`)**: Tích hợp gọi API lấy danh sách và chi tiết sản phẩm. Cập nhật giao diện phân biệt rõ `shortDescription` và `description`.
-  - **Trang phụ (`/feed`, `/activities`, `/customer-service`)**: Giao diện đồng bộ hoá với tông màu chủ đạo, các nút điều hướng (quay lại danh sách) được tinh chỉnh chỉn chu.
-  - **Giỏ Hàng (`/cart`)**: Tích hợp với state quản lý đơn hàng. Tính toán tự động các khoản phí.
-  - **Xác thực (`/login`, `/register`)**: Kết hợp form với UX toggle mượt mà, tích hợp API Auth nhận và lưu JWT token.
-- **Mobile Menu**: Giao diện responsive trên điện thoại đã được tinh chỉnh mượt mà. Tích hợp thanh cuộn chống tràn menu và tính năng Dropdown cho danh mục "Tất cả sản phẩm" để trải nghiệm gọn gàng hơn.
+  - **Trang chủ (`/`)**: Hero banner, section sản phẩm nổi bật, section giá trị cốt lõi. Cấu trúc UI được tinh gọn tối giản, giữ lại các phần quan trọng nhất.
+  - **Sản phẩm (`/menu`, `/menu/:id`)**: Tích hợp gọi API thực tế.
+  - **Trang phụ (`/feed`, `/activities`, `/customer-service`)**: Giao diện đồng bộ với tông màu chủ đạo.
+  - **Giỏ Hàng & Checkout (`/cart`)**: Người dùng đăng nhập có thể nhập thông tin (địa chỉ, số điện thoại) và tiến hành Thanh toán. Sau khi đặt hàng thành công sẽ chuyển sang trang `Success`. Đơn hàng được đẩy trực tiếp vào Backend qua API `/orders`. (Lưu ý: Admin không được phép đặt hàng).
+  - **Xác thực (`/login`, `/register`)**: Tích hợp API Auth thực tế qua Prisma.
 - **Admin Pages:**
-  - **Quản lý Sản Phẩm (`/admin/products`)**: Hiển thị danh sách, thêm, sửa, xóa sản phẩm thông qua API thực.
-  - **Tính năng Upload Hình Ảnh**: Giao diện Admin đã hỗ trợ tải file ảnh trực tiếp từ máy tính lên server thông qua API `/upload`. Ảnh được hiển thị trọn vẹn (không bị cắt xén) tại form preview nhờ CSS `object-fit: contain`.
-- **Thanh toán (Checkout):** Đã tích hợp luồng giao dịch Stripe. Người dùng được chuyển sang trang thanh toán bảo mật của Stripe.
+  - **RBAC (Phân quyền):** Đã phân chia rõ 3 quyền: `ADMIN`, `STAFF`, `CUSTOMER`. 
+    - `ADMIN`: Toàn quyền quản trị. Có thể thay đổi quyền (Role) cho bất kỳ người dùng nào thông qua trang **Người dùng & Khách hàng**.
+    - `STAFF`: Có thể xem/thêm/sửa Sản phẩm, quản lý Danh mục, xem Đơn hàng, nhưng **KHÔNG** thể Xóa sản phẩm, và bị ẩn hoàn toàn trang Khách hàng & Cài đặt.
+  - **Quản lý Sản Phẩm (`/admin/products`)**: Hiển thị danh sách, tìm kiếm, lọc theo danh mục, phân quyền nút Xóa.
+  - **Chi tiết Đơn Hàng (`/admin/orders/:id`)**: Admin có thể xem chi tiết món ăn, thay đổi trạng thái (Chờ xác nhận, Đang chuẩn bị, Đã giao, Đã hủy). Đã hiển thị đầy đủ thông tin giao hàng, số điện thoại (`phone`) và sửa lỗi hiển thị hình ảnh (`product.image`).
 
 ### Backend (NestJS)
-- **Database (Prisma + PostgreSQL):** Lược đồ (Schema) hoàn chỉnh gồm `User`, `Product`, `Category`, `Order`, `OrderItem`, `Article`. Cung cấp sẵn script seed dữ liệu mẫu phong phú (`seed-products.js`, `seed.js`).
-- **Authentication & RBAC:** Cơ chế mã hóa JWT Token. Xác thực người dùng (Login/Register) và phân quyền bảo vệ các API dành riêng cho Admin (Role-Based Access Control).
-- **Payment & Webhook:** Xử lý luồng tạo Stripe Checkout Session, cung cấp endpoint nhận Webhook callback từ Stripe để tự động cập nhật trạng thái đơn hàng (`paid`) ngay sau khi giao dịch thành công.
-- **Upload API (`/upload`):** Endpoint xử lý file upload (sử dụng Multer). Hình ảnh upload được lưu trực tiếp vào thư mục `frontend/public/images` và trả về URL tĩnh tương đối (`/images/...`) để frontend đọc trực tiếp.
+- **Database (Prisma + PostgreSQL):** 
+  - Lược đồ (Schema) hoàn chỉnh gồm `User`, `Product`, `Category`, `Order`, `OrderItem`, `Article`.
+  - Bảng `Order` đã được bổ sung thêm trường `phone` để lưu số điện thoại giao hàng.
+  - Enum `Role` đã có `CUSTOMER`, `ADMIN` và `STAFF`.
+- **API Services:** Xây dựng đầy đủ các module: Users, Auth, Products, Categories, Orders.
+- **Upload API (`/upload`):** Tích hợp Supabase Storage (thay vì local), giúp ảnh có Public URL an toàn, sẵn sàng cho môi trường deploy đám mây.
+- **Fix lỗi Deploy Railway:** Đã gỡ bỏ file `create-admin.ts` đặt sai vị trí ở thư mục root của Backend, giúp NestJS build chuẩn cấu trúc ra `dist/main.js` (không bị văng vào `dist/src/main.js`), khắc phục triệt để lỗi sập `500` và `MODULE_NOT_FOUND` trên Railway.
 
 ## 3. Architecture & Data Flow
-- **Cấu trúc thư mục độc lập:**
-  - `frontend/`: Toàn bộ source code React/Vite. Khởi chạy ở port 5173/5174. Tương tác với Backend thông qua biến môi trường `import.meta.env.VITE_API_URL`. Đã được **Deploy thành công lên Vercel**. Giao diện đã được tối ưu hóa tốc độ tải với cơ chế In-memory/SessionStorage Caching và hiệu ứng Skeleton Loader mượt mà.
-  - `backend/`: Toàn bộ source code NestJS. Đã được **Deploy thành công lên Railway** (cấu hình lắng nghe IP `0.0.0.0`, tự động generate Prisma qua `postinstall` và có sẵn `Dockerfile` chuẩn mực). Yêu cầu kết nối CSDL Supabase PostgreSQL qua 2 biến `DATABASE_URL` và `DIRECT_URL`. Đã bật tính năng CORS hoàn chỉnh.
-- **Luồng quản lý Hình Ảnh (Image Flow):** Admin chọn ảnh ở Frontend -> Bắn POST API `/upload` -> Backend (app.controller.ts) nhận file buffer qua Multer (memoryStorage) -> Backend gọi Supabase Client upload file lên bucket `images` của Supabase Storage -> Backend lấy Public URL từ Supabase trả về (`https://.../images/xyz.ext`) -> Frontend nhận Public URL, gán vào form data -> Submit API lưu path vào DB. (Đã chuyển đổi hoàn toàn sang Supabase Storage, sẵn sàng cho môi trường deploy trên Railway).
+- **Frontend (Vercel):** Khởi chạy React App. Gọi tới backend qua `VITE_API_URL`. Chứa logic kiểm tra Role ở các file Layout để render UI và route phù hợp.
+- **Backend (Railway):** Khởi chạy bằng `node dist/main.js`. Dùng Nixpacks tự động build, cấu hình IP `0.0.0.0` và cổng động từ `process.env.PORT`. 
+- **Database (Supabase Postgres):** Lưu trữ toàn bộ dữ liệu. `prisma db push` để apply Schema.
 
 ## 4. Next Steps (Action Items)
-Người tiếp nhận dự án (hoặc trong phiên làm việc tiếp theo) cần tập trung vào các hạng mục sau để đưa dự án tới điểm Product-Ready:
+Người tiếp nhận dự án trong phiên tiếp theo cần tập trung vào:
 
-1. **Hoàn thiện luồng Giỏ Hàng & Checkout:**
-   - Liên kết hoàn toàn Giỏ hàng với giỏ thanh toán Stripe: Truyền chính xác danh sách sản phẩm trong giỏ qua API Checkout thay vì payload test.
-   - Xây dựng hoàn chỉnh trang Success & Cancel sau khi khách hàng thanh toán xong từ Stripe trả về.
-
-2. **Quản lý Admin bổ sung:**
-   - Xây dựng module quản lý Đơn Hàng (Orders) để Admin theo dõi luồng giao hàng, chuyển trạng thái (Ví dụ: `Đang chuẩn bị`, `Đã giao`).
-   - Mở rộng giao diện UI cho việc quản lý User và Danh mục (Categories).
-
-3. **Cải thiện hệ thống lưu trữ (Cloud Storage):**
-   - [x] Tối ưu luồng upload ảnh: Đã cấu hình đẩy file lên **Supabase Storage** thay vì lưu vào local. Cần đảm bảo đã tạo bucket tên `images` (Public) trên Supabase và cung cấp `SUPABASE_URL` cùng `SUPABASE_KEY` trong file `.env` của backend.
-   - [ ] Cải thiện SEO (Dynamic Meta tags cho các trang chi tiết sản phẩm).
+1. **Dashboard Analytics:** Trang chủ Admin (`/admin`) hiện đang trống, cần bổ sung các biểu đồ thống kê doanh thu, số đơn hàng, và người dùng mới.
+2. **Payment Gateway (Stripe/VNPay):** Luồng checkout hiện tại mặc định là "COD". Nếu cần thanh toán online, hãy tích hợp SDK của Stripe hoặc VNPay tại bước checkout ở `/cart`.
+3. **JWT Authentication & Security:** Hiện tại API Auth trả về token tạm (hoặc lưu mock ở Client). Cần triển khai `PassportJS` và `JWT Strategy` cho NestJS, gắn `@UseGuards(JwtAuthGuard, RolesGuard)` vào các endpoints (Products, Users, Orders) để bảo vệ tuyệt đối dữ liệu backend khỏi request trái phép, thay vì chỉ ẩn UI ở frontend.
+4. **SEO Optimization:** Đưa các thẻ `Helmet` meta tags vào frontend để tăng tính tìm kiếm tự nhiên.
