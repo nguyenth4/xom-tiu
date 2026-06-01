@@ -33,6 +33,37 @@ const ProductDetail = () => {
   const handleDecrease = () => setQuantity(q => Math.max(1, q - 1));
   const handleIncrease = () => setQuantity(q => q + 1);
 
+  const handleAddToCart = () => {
+    if (!product) return;
+    
+    const cartItem = {
+      id: Date.now().toString(),
+      productId: product.id,
+      name: product.name,
+      price: selectedVariant ? selectedVariant.price : product.price,
+      image: product.image,
+      quantity,
+      toppings: selectedVariant ? [selectedVariant.name] : []
+    };
+
+    const savedCart = localStorage.getItem('cart');
+    const cart = savedCart ? JSON.parse(savedCart) : [];
+    
+    const existingIndex = cart.findIndex((item: any) => 
+      item.productId === cartItem.productId && 
+      JSON.stringify(item.toppings) === JSON.stringify(cartItem.toppings)
+    );
+
+    if (existingIndex >= 0) {
+      cart[existingIndex].quantity += quantity;
+    } else {
+      cart.push(cartItem);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert('Đã thêm sản phẩm vào giỏ hàng');
+  };
+
   if (isLoading) {
     return (
       <div className="container animate-fade-in" style={{ padding: '4rem 0', textAlign: 'center' }}>
@@ -110,7 +141,7 @@ const ProductDetail = () => {
                 <Plus size={20} />
               </button>
             </div>
-            <button className={`btn btn-primary ${styles.addToCartBtn}`}>
+            <button className={`btn btn-primary ${styles.addToCartBtn}`} onClick={handleAddToCart}>
               <ShoppingCart size={20} /> Thêm vào giỏ hàng
             </button>
           </div>

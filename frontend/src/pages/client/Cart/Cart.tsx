@@ -1,35 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 import { api } from '../../../services/api';
 import styles from './Cart.module.css';
 
-// Mock Cart Data
-const INITIAL_CART = [
-  {
-    id: '1',
-    productId: '1',
-    name: 'Hủ Tiếu Tươi',
-    price: 65000,
-    image: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cb438?q=80&w=300&auto=format&fit=crop',
-    quantity: 2,
-    toppings: ['Thêm tóp mỡ', 'Thêm tôm (2 con)']
-  },
-  {
-    id: '2',
-    productId: '3',
-    name: 'Combo Tươi & Khô',
-    price: 120000,
-    image: 'https://images.unsplash.com/photo-1548943487-a2e4e43b485d?q=80&w=300&auto=format&fit=crop',
-    quantity: 1,
-    toppings: []
-  }
-];
+interface CartItem {
+  id: string;
+  productId: string | number;
+  name: string;
+  price: number;
+  image: string;
+  quantity: number;
+  toppings: string[];
+}
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState(INITIAL_CART);
-  const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
+  const [address, setAddress] = useState(() => {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        return user.address || '';
+      } catch (e) { return ''; }
+    }
+    return '';
+  });
+
+  const [phone, setPhone] = useState(() => {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        return user.phone || '';
+      } catch (e) { return ''; }
+    }
+    return '';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems]);
+
   const navigate = useNavigate();
 
   const updateQuantity = (id: string, newQty: number) => {
