@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X, User, Search, Phone, ChevronDown, ChevronUp } from 'lucide-react';
 import { FaFacebookF, FaInstagram, FaTiktok } from 'react-icons/fa';
 import { api } from '../../services/api';
@@ -9,6 +9,22 @@ const ClientLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
   const [categories, setCategories] = useState<{id: number, name: string}[]>([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [user, setUser] = useState<{name: string, email: string} | null>(null);
+
+  useEffect(() => {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try {
+        setUser(JSON.parse(userStr));
+      } catch (e) {}
+    } else {
+      if (location.pathname !== '/login' && location.pathname !== '/register') {
+        navigate('/login');
+      }
+    }
+  }, [location.pathname, navigate]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -47,10 +63,28 @@ const ClientLayout = () => {
                 <Search size={14} />
                 <span className={styles.topBarText}>Tìm kiếm</span>
               </button>
-              <Link to="/login" className={styles.topBarBtn}>
-                <User size={14} />
-                <span className={styles.topBarText}>Tài khoản</span>
-              </Link>
+              {user ? (
+                <div className={styles.topBarBtn} style={{ cursor: 'default' }}>
+                  <User size={14} />
+                  <span className={styles.topBarText}>Xin chào, {user.name}</span>
+                  <button 
+                    onClick={() => {
+                      localStorage.removeItem('user');
+                      localStorage.removeItem('token');
+                      setUser(null);
+                      navigate('/login');
+                    }}
+                    style={{ marginLeft: '10px', background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: '12px', textDecoration: 'underline' }}
+                  >
+                    Thoát
+                  </button>
+                </div>
+              ) : (
+                <Link to="/login" className={styles.topBarBtn}>
+                  <User size={14} />
+                  <span className={styles.topBarText}>Tài khoản</span>
+                </Link>
+              )}
               <Link to="/cart" className={styles.topBarBtn}>
                 <ShoppingCart size={14} />
                 <span className={styles.topBarText}>Giỏ hàng</span>

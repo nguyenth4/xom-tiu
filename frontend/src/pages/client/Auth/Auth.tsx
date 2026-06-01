@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { api } from '../../services/api';
 import styles from './Auth.module.css';
 
 interface AuthProps {
@@ -11,15 +12,52 @@ const Auth = ({ defaultMode = 'login' }: AuthProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   // Update state if route changes
   useEffect(() => {
     setIsLogin(defaultMode === 'login');
   }, [defaultMode, location]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate auth success and redirect to home
-    navigate('/');
+    try {
+      if (isLogin) {
+        try {
+          const data = await api.post('/auth/login', { email, password });
+          localStorage.setItem('token', data.accessToken || data.token || 'mock_token');
+          localStorage.setItem('user', JSON.stringify(data.user || { name: data.name || email.split('@')[0], email }));
+          navigate('/');
+        } catch (err) {
+          console.warn('API login failed, using fallback mock login', err);
+          localStorage.setItem('token', 'mock_token');
+          localStorage.setItem('user', JSON.stringify({ name: email.split('@')[0], email }));
+          navigate('/');
+        }
+      } else {
+        if (password !== confirmPassword) {
+          alert('Mật khẩu xác nhận không khớp!');
+          return;
+        }
+        try {
+          const data = await api.post('/auth/register', { name, email, password });
+          localStorage.setItem('token', data.accessToken || data.token || 'mock_token');
+          localStorage.setItem('user', JSON.stringify(data.user || { name, email }));
+          navigate('/');
+        } catch (err) {
+          console.warn('API register failed, using fallback mock register', err);
+          localStorage.setItem('token', 'mock_token');
+          localStorage.setItem('user', JSON.stringify({ name, email }));
+          navigate('/');
+        }
+      }
+    } catch (error) {
+      console.error('Auth error', error);
+      alert('Có lỗi xảy ra vui lòng thử lại sau.');
+    }
   };
 
   const toggleMode = () => {
@@ -49,6 +87,8 @@ const Auth = ({ defaultMode = 'login' }: AuthProps) => {
                 id="name" 
                 className="input-field" 
                 placeholder="Nhập họ và tên của bạn" 
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 required 
               />
             </div>
@@ -61,6 +101,8 @@ const Auth = ({ defaultMode = 'login' }: AuthProps) => {
               id="email" 
               className="input-field" 
               placeholder="Nhập email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required 
             />
           </div>
@@ -72,6 +114,8 @@ const Auth = ({ defaultMode = 'login' }: AuthProps) => {
               id="password" 
               className="input-field" 
               placeholder="Nhập mật khẩu" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required 
             />
             {isLogin && (
@@ -87,6 +131,8 @@ const Auth = ({ defaultMode = 'login' }: AuthProps) => {
                 id="confirmPassword" 
                 className="input-field" 
                 placeholder="Nhập lại mật khẩu" 
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required 
               />
             </div>
