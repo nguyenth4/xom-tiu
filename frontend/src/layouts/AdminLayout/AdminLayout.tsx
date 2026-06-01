@@ -1,8 +1,31 @@
-import { Outlet, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, ShoppingBag, Users, Settings, LogOut, ShoppingCart, Store, Tags } from 'lucide-react';
 import styles from './AdminLayout.module.css';
 
 const AdminLayout = () => {
+  const navigate = useNavigate();
+  const [adminName, setAdminName] = useState('Admin');
+
+  useEffect(() => {
+    const userStr = localStorage.getItem('user');
+    if (!userStr) {
+      navigate('/login');
+      return;
+    }
+    try {
+      const user = JSON.parse(userStr);
+      if (user.role !== 'ADMIN') {
+        alert('Bạn không có quyền truy cập trang quản trị!');
+        navigate('/');
+      } else {
+        setAdminName(user.name || 'Admin');
+      }
+    } catch (e) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
   return (
     <div className={styles.adminLayout}>
       {/* Sidebar */}
@@ -41,7 +64,11 @@ const AdminLayout = () => {
             <Store size={20} />
             <span>Về Cửa hàng</span>
           </Link>
-          <button className={styles.logoutBtn}>
+          <button className={styles.logoutBtn} onClick={() => {
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            navigate('/login');
+          }}>
             <LogOut size={20} />
             <span>Đăng xuất</span>
           </button>
@@ -54,8 +81,8 @@ const AdminLayout = () => {
         <header className={styles.topHeader}>
           <div className={styles.breadcrumb}>Dashboard</div>
           <div className={styles.adminProfile}>
-            <img src="https://i.pravatar.cc/150?img=11" alt="Admin" className={styles.avatar} />
-            <span>Admin</span>
+            <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin" className={styles.avatar} />
+            <span>{adminName}</span>
           </div>
         </header>
 
