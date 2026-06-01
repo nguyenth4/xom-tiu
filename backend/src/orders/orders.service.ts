@@ -19,15 +19,22 @@ export class OrdersService {
   }
 
   async create(data: any) {
-    // In a real scenario, you'd extract items and create them properly.
-    // Assuming data contains userId, shippingAddress, subtotal, total, and an array of items
-    const { items, ...orderData } = data;
+    const { items, userId, shippingAddress, subtotal, total, status, paymentMethod } = data;
     
     return this.prisma.order.create({
       data: {
-        ...orderData,
+        userId,
+        shippingAddress,
+        subtotal,
+        total,
+        status: status || 'Chờ xác nhận',
+        paymentMethod: paymentMethod || 'COD',
         items: {
-          create: items, // expects { productId, quantity, price }
+          create: items.map((item: any) => ({
+            productId: parseInt(item.productId.toString()),
+            quantity: item.quantity,
+            price: item.price
+          })),
         }
       },
       include: { items: true }
