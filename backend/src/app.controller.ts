@@ -1,6 +1,7 @@
 import { Controller, Get, Post, UseInterceptors, UploadedFile, BadRequestException, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { extname } from 'path';
@@ -12,7 +13,8 @@ export class AppController {
 
   constructor(
     private readonly appService: AppService,
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService
   ) {
     const supabaseUrl = process.env.SUPABASE_URL || '';
     const supabaseKey = process.env.SUPABASE_KEY || '';
@@ -35,7 +37,9 @@ export class AppController {
     if (!user || user.password !== password) {
       throw new BadRequestException('Email hoặc mật khẩu không chính xác');
     }
-    return { token: 'mock_jwt_token', user };
+    const payload = { email: user.email, sub: user.id, role: user.role };
+    const token = this.jwtService.sign(payload);
+    return { token, user };
   }
 
   @Post('auth/register')
@@ -48,7 +52,9 @@ export class AppController {
     const user = await this.prisma.user.create({
       data: { name, email, password, role: 'CUSTOMER' }
     });
-    return { token: 'mock_jwt_token', user };
+    const payload = { email: user.email, sub: user.id, role: user.role };
+    const token = this.jwtService.sign(payload);
+    return { token, user };
   }
 
   @Post('upload')

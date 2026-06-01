@@ -24,7 +24,11 @@ export const api = {
       } catch (e) {}
     }
 
-    const response = await fetch(`${API_URL}${endpoint}`);
+    const token = localStorage.getItem('token');
+    const headers: any = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    const response = await fetch(`${API_URL}${endpoint}`, { headers });
     if (!response.ok) throw new Error('API request failed');
     const data = await response.json();
     
@@ -47,9 +51,13 @@ export const api = {
 
   post: async (endpoint: string, data: any) => {
     const isFormData = data instanceof FormData;
+    const token = localStorage.getItem('token');
+    const headers: any = isFormData ? {} : { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: 'POST',
-      headers: isFormData ? {} : { 'Content-Type': 'application/json' },
+      headers,
       body: isFormData ? data : JSON.stringify(data),
     });
     if (!response.ok) throw new Error('API request failed');
@@ -58,9 +66,13 @@ export const api = {
   },
 
   patch: async (endpoint: string, data: any) => {
+    const token = localStorage.getItem('token');
+    const headers: any = { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify(data),
     });
     if (!response.ok) throw new Error('API request failed');
@@ -69,8 +81,13 @@ export const api = {
   },
 
   delete: async (endpoint: string) => {
+    const token = localStorage.getItem('token');
+    const headers: any = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: 'DELETE',
+      headers
     });
     if (!response.ok) throw new Error('API request failed');
     api.clearCache();
