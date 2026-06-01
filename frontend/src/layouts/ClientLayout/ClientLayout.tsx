@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, User, Search, Phone, ChevronDown, ChevronUp } from 'lucide-react';
+import { ShoppingCart, Menu, X, User, Search, Phone, ChevronDown, ChevronUp, LayoutDashboard } from 'lucide-react';
 import { FaFacebookF, FaInstagram, FaTiktok } from 'react-icons/fa';
 import { api } from '../../services/api';
 import styles from './ClientLayout.module.css';
@@ -85,15 +85,16 @@ const ClientLayout = () => {
                 <Search size={14} />
                 <span className={styles.topBarText}>Tìm kiếm</span>
               </button>
+              {user?.role === 'ADMIN' && (
+                <Link to="/admin" className={styles.topBarBtn} style={{ color: 'var(--color-primary-red)', fontWeight: 'bold' }}>
+                  <LayoutDashboard size={14} />
+                  <span className={styles.topBarText} style={{ color: 'var(--color-primary-red)' }}>Trang Quản trị</span>
+                </Link>
+              )}
               {user ? (
                 <div className={styles.topBarBtn} style={{ cursor: 'default' }}>
                   <User size={14} />
                   <span className={styles.topBarText}>Xin chào, {user.name}</span>
-                  {user.role === 'ADMIN' && (
-                    <Link to="/admin" style={{ marginLeft: '10px', color: 'var(--color-primary-red)', fontSize: '12px', fontWeight: 'bold' }}>
-                      Trang Quản trị
-                    </Link>
-                  )}
                   <button 
                     onClick={() => {
                       localStorage.removeItem('user');
