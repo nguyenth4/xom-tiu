@@ -86,9 +86,9 @@ const ClientLayout = () => {
                 <span className={styles.topBarText}>Tìm kiếm</span>
               </button>
               {user?.role === 'ADMIN' && (
-                <Link to="/admin" className={styles.topBarBtn} style={{ color: 'var(--color-primary-red)', fontWeight: 'bold' }}>
+                <Link to="/admin" className={styles.topBarBtn} style={{ color: '#FFD700', fontWeight: 'bold' }}>
                   <LayoutDashboard size={14} />
-                  <span className={styles.topBarText} style={{ color: 'var(--color-primary-red)' }}>Trang Quản trị</span>
+                  <span className={styles.topBarText} style={{ color: '#FFD700' }}>Trang Quản trị</span>
                 </Link>
               )}
               {user ? (
