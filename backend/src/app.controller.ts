@@ -1,5 +1,6 @@
-import { Controller, Get, Post, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, UseInterceptors, UploadedFile, BadRequestException, Body } from '@nestjs/common';
 import { AppService } from './app.service';
+import { PrismaService } from './prisma/prisma.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { extname } from 'path';
@@ -9,7 +10,10 @@ import { createClient } from '@supabase/supabase-js';
 export class AppController {
   private supabase;
 
-  constructor(private readonly appService: AppService) {
+  constructor(
+    private readonly appService: AppService,
+    private readonly prisma: PrismaService
+  ) {
     const supabaseUrl = process.env.SUPABASE_URL || '';
     const supabaseKey = process.env.SUPABASE_KEY || '';
     if (supabaseUrl && supabaseKey) {
@@ -22,6 +26,29 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Post('auth/login')
+  async login(@Body() body: any) {
+    const { email, password } = body;
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    if (!user || user.password !== password) {
+      throw new BadRequestException('Email hoặc mật khẩu không chính xác');
+    }
+    return { token: 'mock_jwt_token', user };
+  }
+
+  @Post('auth/register')
+  async register(@Body() body: any) {
+    const { name, email, password } = body;
+    const existing = await this.prisma.user.findUnique({ where: { email } });
+    if (existing) {
+      throw new BadRequestException('Email đã được sử dụng');
+    }
+    const user = await this.prisma.user.create({
+      data: { name, email, password, role: 'CUSTOMER' }
+    });
+    return { token: 'mock_jwt_token', user };
   }
 
   @Post('upload')
