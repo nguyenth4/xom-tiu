@@ -65,6 +65,7 @@ model Order {
   status          String      @default("Chờ xác nhận") // Chờ xác nhận, Đang chuẩn bị, Đã giao, Đã hủy
   paymentMethod   String      @default("COD")
   shippingAddress String
+  phone           String?
   shippingFee     Float       @default(20000)
   subtotal        Float
   total           Float

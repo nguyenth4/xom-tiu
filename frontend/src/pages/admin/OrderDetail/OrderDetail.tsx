@@ -63,7 +63,7 @@ const OrderDetail = () => {
             <div className={styles.itemsList}>
               {order.items?.map((item: any) => (
                 <div key={item.id} className={styles.orderItem}>
-                  <img src={item.product?.images?.[0] || 'https://via.placeholder.com/150'} alt={item.product?.name} className={styles.itemImage} />
+                  <img src={item.product?.image || 'https://via.placeholder.com/150'} alt={item.product?.name} className={styles.itemImage} />
                   <div className={styles.itemInfo}>
                     <div className={styles.itemName}>{item.product?.name || 'Sản phẩm'}</div>
                     <div className={styles.itemMeta}>Số lượng: {item.quantity} x {formatPrice(item.price)}</div>

@@ -19,12 +19,13 @@ export class OrdersService {
   }
 
   async create(data: any) {
-    const { items, userId, shippingAddress, subtotal, total, status, paymentMethod } = data;
+    const { items, userId, shippingAddress, phone, subtotal, total, status, paymentMethod } = data;
     
     return this.prisma.order.create({
       data: {
         userId,
         shippingAddress,
+        phone,
         subtotal,
         total,
         status: status || 'Chờ xác nhận',
