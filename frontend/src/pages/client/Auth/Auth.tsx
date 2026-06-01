@@ -32,10 +32,8 @@ const Auth = ({ defaultMode = 'login' }: AuthProps) => {
           localStorage.setItem('user', JSON.stringify(data.user || { name: data.name || email.split('@')[0], email }));
           navigate('/');
         } catch (err) {
-          console.warn('API login failed, using fallback mock login', err);
-          localStorage.setItem('token', 'mock_token');
-          localStorage.setItem('user', JSON.stringify({ name: email.split('@')[0], email }));
-          navigate('/');
+          console.error('API login failed:', err);
+          alert('Email hoặc mật khẩu không đúng. Vui lòng kiểm tra lại!');
         }
       } else {
         if (password !== confirmPassword) {
@@ -48,10 +46,8 @@ const Auth = ({ defaultMode = 'login' }: AuthProps) => {
           localStorage.setItem('user', JSON.stringify(data.user || { name, email }));
           navigate('/');
         } catch (err) {
-          console.warn('API register failed, using fallback mock register', err);
-          localStorage.setItem('token', 'mock_token');
-          localStorage.setItem('user', JSON.stringify({ name, email }));
-          navigate('/');
+          console.error('API register failed:', err);
+          alert('Đăng ký không thành công. Email có thể đã tồn tại hoặc thông tin không hợp lệ.');
         }
       }
     } catch (error) {
