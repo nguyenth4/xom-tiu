@@ -6,6 +6,7 @@ import styles from './AdminLayout.module.css';
 const AdminLayout = () => {
   const navigate = useNavigate();
   const [adminName, setAdminName] = useState('Admin');
+  const [userRole, setUserRole] = useState('STAFF');
 
   useEffect(() => {
     const userStr = localStorage.getItem('user');
@@ -15,11 +16,12 @@ const AdminLayout = () => {
     }
     try {
       const user = JSON.parse(userStr);
-      if (user.role !== 'ADMIN') {
+      if (user.role !== 'ADMIN' && user.role !== 'STAFF') {
         alert('Bạn không có quyền truy cập trang quản trị!');
         navigate('/');
       } else {
         setAdminName(user.name || 'Admin');
+        setUserRole(user.role);
       }
     } catch (e) {
       navigate('/login');
@@ -31,7 +33,7 @@ const AdminLayout = () => {
       {/* Sidebar */}
       <aside className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
-          <h2>Xóm<span className="text-primary">Tiếu</span> <span className={styles.badge}>Admin</span></h2>
+          <h2>Xóm<span className="text-primary">Tiếu</span> <span className={styles.badge}>{userRole}</span></h2>
         </div>
         <nav className={styles.sidebarNav}>
           <Link to="/admin" className={styles.navItem}>
@@ -50,14 +52,18 @@ const AdminLayout = () => {
             <ShoppingCart size={20} />
             <span>Đơn hàng</span>
           </Link>
-          <Link to="/admin/customers" className={styles.navItem}>
-            <Users size={20} />
-            <span>Khách hàng</span>
-          </Link>
-          <Link to="#" className={styles.navItem}>
-            <Settings size={20} />
-            <span>Cài đặt</span>
-          </Link>
+          {userRole === 'ADMIN' && (
+            <Link to="/admin/customers" className={styles.navItem}>
+              <Users size={20} />
+              <span>Người dùng & Khách hàng</span>
+            </Link>
+          )}
+          {userRole === 'ADMIN' && (
+            <Link to="#" className={styles.navItem}>
+              <Settings size={20} />
+              <span>Cài đặt</span>
+            </Link>
+          )}
         </nav>
         <div className={styles.sidebarFooter}>
           <Link to="/" className={styles.navItem} style={{ marginBottom: '0.5rem' }}>

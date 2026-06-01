@@ -43,6 +43,17 @@ const AdminCustomers = () => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
   };
 
+  const handleRoleChange = async (userId: string, newRole: string) => {
+    if (!window.confirm(`Bạn có chắc chắn thay đổi quyền của người dùng này thành ${newRole}?`)) return;
+    try {
+      await api.patch(`/users/${userId}`, { role: newRole });
+      setCustomers(customers.map(c => c.id === userId ? { ...c, role: newRole } : c));
+      alert('Đã cập nhật quyền thành công!');
+    } catch (err) {
+      alert('Lỗi khi cập nhật quyền');
+    }
+  };
+
   return (
     <div className={`animate-fade-in ${styles.adminCustomersPage}`}>
       <div className={styles.pageHeader}>
@@ -73,7 +84,7 @@ const AdminCustomers = () => {
               <th>Liên hệ</th>
               <th className="text-center">Số đơn hàng</th>
               <th>Tổng chi tiêu</th>
-              <th className="text-center">Hành động</th>
+              <th>Quyền (Role)</th>
             </tr>
           </thead>
           <tbody>
@@ -109,11 +120,16 @@ const AdminCustomers = () => {
                   <td className="text-center font-bold">{customer.totalOrders}</td>
                   <td className="font-bold text-primary">{formatPrice(customer.totalSpent)}</td>
                   <td>
-                    <div className={styles.actionButtons}>
-                      <button className={styles.actionBtnView} title="Thêm tùy chọn">
-                        <MoreHorizontal size={18} />
-                      </button>
-                    </div>
+                    <select 
+                      value={customer.role}
+                      onChange={(e) => handleRoleChange(customer.id, e.target.value)}
+                      className="input-field"
+                      style={{ padding: '0.25rem 0.5rem', height: 'auto', fontSize: '0.875rem' }}
+                    >
+                      <option value="CUSTOMER">Khách hàng</option>
+                      <option value="STAFF">Nhân viên</option>
+                      <option value="ADMIN">Quản trị viên</option>
+                    </select>
                   </td>
                 </tr>
               ))

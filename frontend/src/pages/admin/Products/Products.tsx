@@ -12,6 +12,16 @@ const AdminProducts = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [userRole, setUserRole] = useState('STAFF');
+
+  useEffect(() => {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try {
+        setUserRole(JSON.parse(userStr).role);
+      } catch (e) {}
+    }
+  }, []);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -156,9 +166,11 @@ const AdminProducts = () => {
                     <button className={styles.actionBtnEdit} onClick={() => handleOpenModal(product)} title="Chỉnh sửa">
                       <Edit2 size={18} />
                     </button>
-                    <button className={styles.actionBtnDelete} onClick={() => handleDelete(product.id)} title="Xóa">
-                      <Trash2 size={18} />
-                    </button>
+                    {userRole === 'ADMIN' && (
+                      <button className={styles.actionBtnDelete} onClick={() => handleDelete(product.id)} title="Xóa">
+                        <Trash2 size={18} />
+                      </button>
+                    )}
                   </div>
                 </td>
               </tr>
