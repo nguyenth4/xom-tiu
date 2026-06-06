@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X, User, Search, Phone, ChevronDown, ChevronUp, LayoutDashboard } from 'lucide-react';
-import { FaFacebookF, FaInstagram, FaTiktok } from 'react-icons/fa';
+import { FaFacebookF, FaTiktok } from 'react-icons/fa';
 import { api } from '../../services/api';
 import styles from './ClientLayout.module.css';
 
@@ -268,8 +268,7 @@ const ClientLayout = () => {
             <h4>Kênh truyền thông</h4>
             <ul className={styles.socialLinks}>
               <li><a href="https://www.facebook.com/profile.php?id=61582241639025&locale=vi_VN" target="_blank" rel="noopener noreferrer"><FaFacebookF size={20} /></a></li>
-              <li><a href="#" target="_blank" rel="noopener noreferrer"><FaInstagram size={20} /></a></li>
-              <li><a href="#" target="_blank" rel="noopener noreferrer"><FaTiktok size={20} /></a></li>
+              <li><a href="https://www.tiktok.com/@xomtiu?_r=1&_t=ZS-96zBfOjPrYm" target="_blank" rel="noopener noreferrer"><FaTiktok size={20} /></a></li>
             </ul>
           </div>
         </div>

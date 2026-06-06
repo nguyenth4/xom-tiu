@@ -547,13 +547,13 @@
   background-color: var(--color-bg-alt);
 }
 .infoGrid {
-  display: grid;
+  display: flex;
+  justify-content: center;
   gap: 2rem;
 }
-@media (min-width: 768px) {
-  .infoGrid {
-    grid-template-columns: 1fr 1fr;
-  }
+.infoGrid > div {
+  max-width: 600px;
+  width: 100%;
 }
 .infoBox {
   background: var(--color-surface);

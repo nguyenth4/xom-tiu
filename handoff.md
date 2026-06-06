@@ -14,9 +14,10 @@
 ### Frontend (Client & Admin)
 - **Design System:** Tông màu Beige/Taupe trung tính cao cấp. Header có hiệu ứng glassmorphism. Tối ưu hoàn chỉnh Responsive Mobile Menu. Đã cập nhật Title (`Xóm Tíu`) và Favicon tùy chỉnh (bo góc mềm mại). Nút "Trang Quản trị" trên topbar dành cho Admin được làm nổi bật với màu vàng gold.
 - **Client Pages:**
-  - **Trang chủ (`/`)**: Hero banner, section sản phẩm nổi bật, section giá trị cốt lõi. Cấu trúc UI được tinh gọn tối giản, giữ lại các phần quan trọng nhất.
-  - **Sản phẩm (`/menu`, `/menu/:id`)**: Tích hợp gọi API thực tế.
-  - **Trang phụ (`/feed`, `/activities`, `/customer-service`)**: Giao diện đồng bộ với tông màu chủ đạo.
+  - **Trang chủ (`/`)**: Hero banner, section sản phẩm nổi bật, section giá trị cốt lõi. Cấu trúc UI được tinh gọn tối giản, giữ lại các phần quan trọng nhất (đã loại bỏ phần thông tin Khu vực phân phối).
+  - **Sản phẩm (`/menu`, `/menu/:id`)**: Tích hợp gọi API thực tế. Bộ lọc danh mục luôn tự động đưa mục "Combo" xuống dưới cùng. Hiển thị thông tin phân loại (variants) đầy đủ để khách hàng có thể chọn khối lượng trước khi đặt hàng. Lỗi rớt dòng JSON cũng đã được giải quyết bằng cách xử lý mã lỗi 404 từ backend.
+  - **Trang phụ (`/feed`, `/activities`, `/about`, `/customer-service`)**: Giao diện đồng bộ với tông màu chủ đạo. Đã điều chỉnh trang About (`Câu Chuyện Xóm Tíu`) sang nền màu đặc thay vì banner hình ảnh. Đã xóa phần hiển thị video Youtube trên trang Feed để tập trung vào câu chuyện.
+  - **Footer**: Đã sửa lỗi rớt chữ tiêu đề bằng cách thêm CSS whitespace-nowrap và điều chỉnh lại tỷ lệ hiển thị lưới.
   - **Giỏ Hàng & Checkout (`/cart`)**: Người dùng đăng nhập có thể nhập thông tin (địa chỉ, số điện thoại) và tiến hành Thanh toán. Sau khi đặt hàng thành công sẽ chuyển sang trang `Success`. Đơn hàng được đẩy trực tiếp vào Backend qua API `/orders`. (Lưu ý: Admin không được phép đặt hàng).
 - **Admin Pages:**
   - **Dashboard Analytics (`/admin`)**: Đã hoàn thiện giao diện tổng quan hệ thống, hiển thị các thẻ thống kê trực quan (Tổng doanh thu, Tổng đơn hàng, Lượng khách hàng) và tích hợp thư viện `Recharts` để vẽ biểu đồ thanh (Bar Chart) doanh thu trong 7 ngày gần nhất từ API thực.
@@ -31,11 +32,17 @@
   - Lược đồ (Schema) hoàn chỉnh gồm `User`, `Product`, `Category`, `Order`, `OrderItem`, `Article`.
   - Bảng `Order` có trường `phone` để lưu số điện thoại giao hàng.
   - Enum `Role` có `CUSTOMER`, `ADMIN` và `STAFF`.
+- **Dữ liệu hạt giống (Seed Data):**
+  - Đã chuẩn hóa danh mục (`Hủ Tiếu Tươi`, `Hủ Tiếu Khô`, `Combo`).
+  - Sản phẩm bao gồm: "Hủ tiếu tươi", "Hủ tiếu khô", và "Combo yêu thương". Toàn bộ dữ liệu mô tả (short, long) và thông tin biến thể (variants: 1kg, combo 2kg, v.v.) đã được seed lại. Tệp seed đã được vô hiệu hóa tạm thời lệnh xoá (`deleteMany()`) để tránh ghi đè làm mất dữ liệu quản trị mới.
 - **JWT Authentication & Security:** 
   - Đã tích hợp hoàn chỉnh `PassportJS` và `@nestjs/jwt`.
   - Khởi tạo `JwtStrategy`, `JwtAuthGuard` và `RolesGuard`.
-  - Tất cả các endpoint API nhạy cảm (Quản lý User, sửa/xoá Sản phẩm, update đơn hàng, Analytics) đều được bảo vệ bằng `@UseGuards(JwtAuthGuard, RolesGuard)` và phân quyền cấp API bằng decorator `@Roles('ADMIN', 'STAFF')`.
-- **API Services:** Đầy đủ module: Users, Auth, Products, Categories, Orders. Bổ sung endpoint `GET /orders/analytics` phục vụ cho thống kê Dashboard.
+  - Tất cả các endpoint API nhạy cảm đều được bảo vệ bằng `@UseGuards(JwtAuthGuard, RolesGuard)` và phân quyền cấp API bằng decorator `@Roles('ADMIN', 'STAFF')`.
+- **API Services:** 
+  - Đầy đủ module: Users, Auth, Products, Categories, Orders. Bổ sung endpoint `GET /orders/analytics` phục vụ cho thống kê Dashboard.
+  - Category Service tự động sắp xếp kết quả để đưa danh mục 'Combo' xuống cuối cùng.
+  - Product Service chủ động ném lỗi `NotFoundException` (404) nếu truy xuất ID sản phẩm không hợp lệ, giúp frontend bắt lỗi an toàn.
 - **Upload API (`/upload`):** Tích hợp Supabase Storage (thay vì local), giúp ảnh có Public URL an toàn, sẵn sàng cho môi trường deploy đám mây.
 - **Deploy Optimization:** Cấu trúc biên dịch (build) đã được tối ưu để hoạt động hoàn hảo trên Nixpacks (Railway) sau khi xóa các script thừa (`create-admin.ts`), ngăn chặn lỗi `MODULE_NOT_FOUND`.
 

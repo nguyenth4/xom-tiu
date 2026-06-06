@@ -265,17 +265,7 @@ const Home = () => {
       <section className={styles.infoSection}>
         <div className="container">
           <div className={styles.infoGrid}>
-            <div className={styles.infoBox}>
-              <h3><MapPin size={24} className="text-primary" /> Khu vực phân phối</h3>
-              <p style={{ color: 'var(--color-text-muted)', lineHeight: '1.8', marginBottom: '1rem' }}>
-                Chúng tôi hiện đang phục vụ tại các khu vực nội thành TP. Cần Thơ và TP. Hồ Chí Minh với cam kết giao hàng trong 30-45 phút.
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle2 size={18} color="var(--color-primary-red)"/> Quận Ninh Kiều, Cần Thơ</li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle2 size={18} color="var(--color-primary-red)"/> Quận Cái Răng, Cần Thơ</li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><CheckCircle2 size={18} color="var(--color-primary-red)"/> Quận 1, 3, 5, 10, TP.HCM</li>
-              </ul>
-            </div>
+
             <div className={styles.infoBox}>
               <h3><PhoneCall size={24} className="text-primary" /> Liên hệ với chúng tôi</h3>
               <p style={{ color: 'var(--color-text-muted)', lineHeight: '1.8', marginBottom: '1.5rem' }}>

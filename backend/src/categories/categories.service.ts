@@ -8,12 +8,18 @@ export class CategoriesService {
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.category.findMany({
+    const categories = await this.prisma.category.findMany({
       include: {
         _count: {
           select: { products: true }
         }
       }
+    });
+
+    return categories.sort((a, b) => {
+      if (a.name.toLowerCase() === 'combo') return 1;
+      if (b.name.toLowerCase() === 'combo') return -1;
+      return 0;
     });
   }
 

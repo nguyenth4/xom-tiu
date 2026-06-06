@@ -5,12 +5,6 @@ const About = () => {
   return (
     <div className={`animate-fade-in ${styles.aboutPage}`}>
       <section className={styles.hero}>
-        <img
-          src="https://images.unsplash.com/photo-1555126634-323283e090fa?q=80&w=1920&auto=format&fit=crop"
-          alt="Xóm Tíu Background"
-          className={styles.heroBg}
-        />
-        <div className={styles.heroOverlay}></div>
         <div className="container">
           <h1 className={styles.heroTitle}>Câu Chuyện Xóm Tíu</h1>
           <p className={styles.heroSubtitle}>Ăn sạch – Sống xanh – Giữ trọn vị quê hương</p>

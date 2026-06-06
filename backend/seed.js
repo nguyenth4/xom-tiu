@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-  const categories = ['Hủ Tiếu Nước', 'Hủ Tiếu Khô', 'Combo', 'Đồ uống'];
+  const categories = ['Hủ Tiếu Tươi', 'Hủ Tiếu Khô', 'Combo'];
   for (const name of categories) {
     await prisma.category.upsert({
       where: { name },
@@ -12,7 +12,7 @@ async function main() {
   }
   
   // Seed sample products
-  const htn = await prisma.category.findUnique({ where: { name: 'Hủ Tiếu Nước' } });
+  const htn = await prisma.category.findUnique({ where: { name: 'Hủ Tiếu Tươi' } });
   
   if (htn) {
       await prisma.product.create({

@@ -34,7 +34,7 @@ export const mockFeedData: FeedPost[] = [
     id: "3",
     title: "Cách Ăn Hủ Tiếu Khô Chuẩn Vị Người Sài Gòn",
     excerpt: "Hủ tiếu khô không chỉ là một món ăn, mà còn là một nghệ thuật thưởng thức ẩm thực của người dân đất Sài thành.",
-    content: "Nếu như hủ tiếu nước mang đến cảm giác thanh tao, thì hủ tiếu khô lại đánh thức vị giác bằng sự đậm đà của nước sốt. Một tô hủ tiếu khô đúng chuẩn phải có sợi hủ tiếu tơi, không bị dính cục. Nước sốt trộn phải cân bằng giữa vị mặn, ngọt, chua nhẹ và cay nồng. Thêm chút tóp mỡ giòn rụm, hành phi thơm lừng và rau cần tây tươi mát. Đặc biệt, chén nước lèo nóng hổi đi kèm chính là điểm nhấn để bữa ăn thêm phần trọn vẹn.",
+    content: "Nếu như hủ tiếu tươi mang đến cảm giác thanh tao, thì hủ tiếu khô lại đánh thức vị giác bằng sự đậm đà của nước sốt. Một tô hủ tiếu khô đúng chuẩn phải có sợi hủ tiếu tơi, không bị dính cục. Nước sốt trộn phải cân bằng giữa vị mặn, ngọt, chua nhẹ và cay nồng. Thêm chút tóp mỡ giòn rụm, hành phi thơm lừng và rau cần tây tươi mát. Đặc biệt, chén nước lèo nóng hổi đi kèm chính là điểm nhấn để bữa ăn thêm phần trọn vẹn.",
     imageUrl: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?q=80&w=800&auto=format&fit=crop",
     author: "Góc Nhìn Thực Khách",
     date: "15 Tháng 5, 2026",
