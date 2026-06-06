@@ -29,7 +29,10 @@ export const api = {
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
     const response = await fetch(`${API_URL}${endpoint}`, { headers });
-    if (!response.ok) throw new Error('API request failed');
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.message || 'API request failed');
+    }
     const data = await response.json();
     
     if (useCache) {
@@ -60,7 +63,10 @@ export const api = {
       headers,
       body: isFormData ? data : JSON.stringify(data),
     });
-    if (!response.ok) throw new Error('API request failed');
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.message || 'API request failed');
+    }
     api.clearCache();
     return response.json();
   },
@@ -75,7 +81,10 @@ export const api = {
       headers,
       body: JSON.stringify(data),
     });
-    if (!response.ok) throw new Error('API request failed');
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.message || 'API request failed');
+    }
     api.clearCache();
     return response.json();
   },
@@ -89,7 +98,10 @@ export const api = {
       method: 'DELETE',
       headers
     });
-    if (!response.ok) throw new Error('API request failed');
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.message || 'API request failed');
+    }
     api.clearCache();
     return response.json();
   }

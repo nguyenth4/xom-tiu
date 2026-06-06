@@ -10,6 +10,9 @@ import About from './pages/client/About/About';
 import Contact from './pages/client/Contact/Contact';
 import Cart from './pages/client/Cart/Cart';
 import Auth from './pages/client/Auth/Auth';
+import ForgotPassword from './pages/client/Auth/ForgotPassword';
+import ResetPassword from './pages/client/Auth/ResetPassword';
+import Profile from './pages/client/Profile/Profile';
 import Feed from './pages/client/Feed/Feed';
 import FeedDetail from './pages/client/FeedDetail/FeedDetail';
 import Activities from './pages/client/Activities/Activities';
@@ -46,6 +49,9 @@ function App() {
           <Route path="success" element={<Success />} />
           <Route path="login" element={<Auth defaultMode="login" />} />
           <Route path="register" element={<Auth defaultMode="register" />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="customer-service" element={<CustomerService />} />
         </Route>
 

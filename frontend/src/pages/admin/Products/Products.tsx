@@ -166,7 +166,7 @@ const AdminProducts = () => {
                     <button className={styles.actionBtnEdit} onClick={() => handleOpenModal(product)} title="Chỉnh sửa">
                       <Edit2 size={18} />
                     </button>
-                    {userRole === 'ADMIN' && (
+                    {(userRole === 'ADMIN' || userRole === 'STAFF') && (
                       <button className={styles.actionBtnDelete} onClick={() => handleDelete(product.id)} title="Xóa">
                         <Trash2 size={18} />
                       </button>

@@ -33,7 +33,7 @@ export class ProductsController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  @Roles('ADMIN', 'STAFF')
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);

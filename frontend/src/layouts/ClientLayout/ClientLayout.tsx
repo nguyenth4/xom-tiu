@@ -94,7 +94,9 @@ const ClientLayout = () => {
               {user ? (
                 <div className={styles.topBarBtn} style={{ cursor: 'default' }}>
                   <User size={14} />
-                  <span className={styles.topBarText}>Xin chào, {user.name}</span>
+                  <Link to="/profile" className={styles.topBarText} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    Xin chào, {user.name}
+                  </Link>
                   <button 
                     onClick={() => {
                       localStorage.removeItem('user');

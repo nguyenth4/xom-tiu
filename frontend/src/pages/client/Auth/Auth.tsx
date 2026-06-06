@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { api } from '../../../services/api';
 import styles from './Auth.module.css';
 
@@ -115,7 +115,7 @@ const Auth = ({ defaultMode = 'login' }: AuthProps) => {
               required 
             />
             {isLogin && (
-              <a href="#" className={styles.forgotPassword}>Quên mật khẩu?</a>
+              <Link to="/forgot-password" className={styles.forgotPassword}>Quên mật khẩu?</Link>
             )}
           </div>
 

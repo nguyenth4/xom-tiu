@@ -95,13 +95,23 @@ const OrderDetail = () => {
           <div className={styles.card}>
             <h2>Trạng thái đơn hàng</h2>
             <div className={styles.formGroup}>
-              <select className="input-field" value={status} onChange={(e) => setStatus(e.target.value)}>
-                <option value="Chờ xác nhận">Chờ xác nhận</option>
-                <option value="Đang chuẩn bị">Đang chuẩn bị</option>
-                <option value="Đã giao">Đã giao</option>
-                <option value="Đã hủy">Đã hủy</option>
+              <select 
+                className="input-field" 
+                value={status} 
+                onChange={(e) => setStatus(e.target.value)}
+                disabled={order.status === 'Đã giao' || order.status === 'Đã hủy'}
+              >
+                <option value="Chờ xác nhận" disabled={order.status !== 'Chờ xác nhận'}>Chờ xác nhận</option>
+                <option value="Đang chuẩn bị" disabled={order.status === 'Đã giao' || order.status === 'Đã hủy'}>Đang chuẩn bị</option>
+                <option value="Đã giao" disabled={order.status === 'Chờ xác nhận' || order.status === 'Đã hủy'}>Đã giao</option>
+                <option value="Đã hủy" disabled={order.status === 'Đã giao'}>Đã hủy</option>
               </select>
-              <button className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }} onClick={handleUpdateStatus}>
+              <button 
+                className="btn btn-primary" 
+                style={{ width: '100%', marginTop: '1rem' }} 
+                onClick={handleUpdateStatus}
+                disabled={status === order.status || order.status === 'Đã giao' || order.status === 'Đã hủy'}
+              >
                 Cập nhật trạng thái
               </button>
             </div>

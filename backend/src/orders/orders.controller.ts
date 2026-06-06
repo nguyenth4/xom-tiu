@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
@@ -19,6 +19,12 @@ export class OrdersController {
   @Get('analytics')
   getAnalytics() {
     return this.ordersService.getAnalytics();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('my-orders')
+  findMyOrders(@Request() req: any) {
+    return this.ordersService.findMyOrders(req.user.sub);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

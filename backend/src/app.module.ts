@@ -10,6 +10,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './auth/jwt.strategy';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { JwtStrategy } from './auth/jwt.strategy';
       secret: process.env.JWT_SECRET || 'xomtiu_secret_key_2026',
       signOptions: { expiresIn: '7d' },
     }),
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],
