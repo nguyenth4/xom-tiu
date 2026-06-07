@@ -132,3 +132,80 @@
   overflow-y: auto;
   background-color: var(--color-bg-base);
 }
+
+.sidebarOverlay {
+  display: none;
+}
+
+.closeSidebarBtn {
+  display: none;
+}
+
+.mobileMenuBtn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-main);
+  padding: 0.5rem;
+  margin-left: -0.5rem;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    height: 100vh;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    width: 260px;
+  }
+
+  .sidebarOpen {
+    left: 0;
+  }
+
+  .sidebarOverlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .sidebarHeader {
+    justify-content: space-between;
+  }
+
+  .closeSidebarBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--color-text-main);
+    cursor: pointer;
+  }
+
+  .mobileMenuBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .topHeader {
+    padding: 0 1rem;
+  }
+
+  .adminNameText {
+    display: none;
+  }
+
+  .contentArea {
+    padding: 1rem;
+  }
+}

@@ -8,6 +8,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .title {
@@ -18,12 +20,13 @@
 .controls {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .searchBar {
   position: relative;
   flex-grow: 1;
-  max-width: 400px;
+  max-width: 100%;
 }
 
 .searchIcon {
