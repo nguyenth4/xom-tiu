@@ -95,7 +95,7 @@ const Dashboard = () => {
                 axisLine={false} 
                 tickLine={false}
               />
-              <Tooltip formatter={(value: number) => formatPrice(value)} />
+              <Tooltip formatter={(value: any) => formatPrice(value)} />
               <Bar dataKey="revenue" fill="#D4AF37" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>

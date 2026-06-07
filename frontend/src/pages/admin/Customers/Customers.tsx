@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Mail, Phone, MoreHorizontal } from 'lucide-react';
+import { Search, Mail, Phone } from 'lucide-react';
 import { api } from '../../../services/api';
 import styles from './Customers.module.css';
 
