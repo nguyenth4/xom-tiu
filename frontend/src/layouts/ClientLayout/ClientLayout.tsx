@@ -268,7 +268,7 @@ const ClientLayout = () => {
             <h4>Kênh truyền thông</h4>
             <ul className={styles.socialLinks}>
               <li><a href="https://www.facebook.com/profile.php?id=61582241639025&locale=vi_VN" target="_blank" rel="noopener noreferrer"><FaFacebookF size={20} /></a></li>
-              <li><a href="https://www.tiktok.com/@xomtiu?_r=1&_t=ZS-96zBfOjPrYm" target="_blank" rel="noopener noreferrer"><FaTiktok size={20} /></a></li>
+              <li><a href="https://www.tiktok.com/@xom_tiu?_r=1&_t=ZS-97N0Xxnk6Yq" target="_blank" rel="noopener noreferrer"><FaTiktok size={20} /></a></li>
             </ul>
           </div>
         </div>
